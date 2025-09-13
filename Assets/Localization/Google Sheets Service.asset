@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Google Sheets Service
   m_EditorClassIdentifier: 
   m_ApiKey: 
-  m_ClientId: 
-  m_ClientSecret: 
+  m_ClientId: 149228767619-3cm0md1nnhsqn1e3fvn97klasvmcmlbf.apps.googleusercontent.com
+  m_ClientSecret: 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
   m_AuthenticationType: 1
   m_ApplicationName: DefaultGameName
   m_NewSheetProperties:

@@ -27,8 +27,8 @@ MonoBehaviour:
       data:
         m_Collection: {fileID: 11400000}
         m_SheetsServiceProvider: {fileID: 11400000, guid: 834838c7d23f51244b1be36636d04e5b, type: 2}
-        m_SpreadsheetId: 
-        m_SheetId: 757423749
+        m_SpreadsheetId: 17IkiHfZc3jXP-zCp1F9P2lfX1pnrKuyjnt2DolnYdO4
+        m_SheetId: 705870789
         m_Columns:
         - rid: 8853057895039238147
         - rid: 8853057895039238148
