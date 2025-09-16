@@ -1,6 +1,6 @@
 {
     "name": "Sirenix.OdinInspector.Modules.UnityLocalization",
-    "references": [ "Unity.Localization", "Sirenix.Serialization", "Sirenix.Serialization.Config" ],
+    "references": [ "Unity.Localization", "Sirenix.Serialization", "Sirenix.Serialization.Config", "UnityEditor.UI", "UnityEngine.UI" ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
