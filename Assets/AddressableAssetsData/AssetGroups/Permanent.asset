@@ -15,8 +15,48 @@ MonoBehaviour:
   m_GroupName: Permanent
   m_GUID: 205d943ddc117c748875293bd50e6963
   m_SerializeEntries:
+  - m_GUID: 1efa2100d7b72074ab13b747338debd7
+    m_Address: Assets/Prefabs/Tiles/Tile Banana.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 448e3360fbe243c45aec13f1e740f17d
+    m_Address: Tile Dictionary
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47652ab2798329b4daa615de492053be
+    m_Address: Assets/Prefabs/Tiles/Tile Apple.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 867decb8ca121ba458198a4843c9f502
+    m_Address: Assets/Art/TEMP_tiles.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9bf0753ed2fe08f4ea1ee439a9f97b40
+    m_Address: Assets/Prefabs/Tiles/Tile Watermelon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: baf0025774f07f549b3918ec1a363a75
     m_Address: Click
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cba8cc29ec5a139498b21ee462460647
+    m_Address: Assets/Prefabs/Tiles/Tile Lemon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f88af2f3bae4f694d9ea6bba6541779f
+    m_Address: Assets/Prefabs/Tiles/Tile Cherry.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc115bf0946cf6e4b8b4413fcf0e1847
+    m_Address: Assets/Prefabs/Tiles/Tile Water.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

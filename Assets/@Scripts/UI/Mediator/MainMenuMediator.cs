@@ -1,6 +1,5 @@
 using Core.Infrastructure.StateMachine.States;
 using Core.Signals;
-using Levels;
 using MessagePipe;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -40,7 +39,7 @@ namespace UI.Mediator
         {
             if (StateMachine.CurrentState is SelectLevelState state)
             {
-                _ = state.EnterLevel((Level)level);
+                _ = state.EnterLevel((ulong)level);
             }
             else
             {

@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.Tiles
 {
@@ -27,7 +29,8 @@ namespace Game.Tiles
                             IsBlocked = z < sizeZ - 1,
                             GameObject = null
                         };
-                        field.PlaceTile(tile);
+                        if (!field.PlaceTile(tile))
+                            throw new Exception("Unexpectedly can't place tile at " + pos);
                     }
                 }
             }

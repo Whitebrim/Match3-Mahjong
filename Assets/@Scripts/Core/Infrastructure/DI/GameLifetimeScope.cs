@@ -1,6 +1,5 @@
 using Core.Infrastructure.StateMachine;
 using Core.Infrastructure.StateMachine.States;
-using Core.Infrastructure.StateMachine.States.Levels;
 using Core.Services;
 using Core.Services.AssetManagement;
 using Core.Services.Audio;
@@ -20,7 +19,7 @@ namespace Core.Infrastructure.DI
         protected override void Configure(IContainerBuilder builder)
         {
             if (GameBootstrapper.IsInitialized) return;
-            builder.RegisterEntryPoint<GameBootstrapper>();//<-- Application entry point
+            builder.RegisterEntryPoint<GameBootstrapper>(); // <-- Application entry point
 
             builder.Register<IObjectResolver, Container>(Lifetime.Scoped);
             
@@ -33,8 +32,7 @@ namespace Core.Infrastructure.DI
             builder.Register<BootstrapState>(Lifetime.Singleton);
             builder.Register<MainMenuState>(Lifetime.Singleton);
             builder.Register<SelectLevelState>(Lifetime.Singleton);
-            
-            builder.Register<Level1State>(Lifetime.Singleton);
+            builder.Register<GameState>(Lifetime.Singleton);
             
             RegisterMessagePipe(builder);
         }

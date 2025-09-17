@@ -4,8 +4,8 @@ namespace Game.Tiles
         Apple,
         Banana,
         Cherry,
-        Strawberry,
-        Avocado,
+        Watermelon,
+        Water,
         Lemon,
     }
 }

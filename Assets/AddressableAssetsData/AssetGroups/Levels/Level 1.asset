@@ -13,15 +13,8 @@ MonoBehaviour:
   m_Name: Level 1
   m_EditorClassIdentifier: 
   m_GroupName: Level 1
-  m_Data:
-    m_SerializedData: []
   m_GUID: fbb4e5ebb0dd0fd4ea726fb077b2e3aa
-  m_SerializeEntries:
-  - m_GUID: 40434c72cea3a374cac4ff597cd43935
-    m_Address: Level 1 Config
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 10f25cd62c7ef594384c13217abb6d2d, type: 2}
   m_SchemaSet:

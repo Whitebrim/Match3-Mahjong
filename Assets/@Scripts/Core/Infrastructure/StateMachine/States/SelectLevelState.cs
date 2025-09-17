@@ -1,8 +1,7 @@
-using Core.Infrastructure.StateMachine.States.Levels;
+using Core.Services.AssetManagement;
 using Core.Services.SceneLoader;
 using Core.Signals;
 using Cysharp.Threading.Tasks;
-using Levels;
 using MessagePipe;
 using Sirenix.OdinInspector;
 using UI;
@@ -26,16 +25,11 @@ namespace Core.Infrastructure.StateMachine.States
         }
 
         [Button(ButtonSizes.Medium)]
-        public async UniTask EnterLevel(Level level)
+        public async UniTask EnterLevel(ulong level)
         {
             await SceneLoader.LoadSceneAsync(SceneNameConstants.Game);
-            
-            switch (level)
-            {
-                case Level.L1:
-                    _stateMachine.Enter<Level1State>();
-                    break;
-            }
+            AddressablesCache.ReleaseAssets(ReleaseKey.MainMenu);
+            _stateMachine.Enter<GameState, ulong>(level);
         }
     }
 }
