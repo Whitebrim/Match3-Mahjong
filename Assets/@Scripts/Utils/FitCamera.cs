@@ -10,7 +10,11 @@ namespace Utils
         [Sirenix.OdinInspector.Button]
         private void Start()
         {
-            GetComponent<Camera>().orthographicSize = unitsWidth * ((float)Screen.height / Screen.width) * 0.5f;
+            var cam = GetComponent<Camera>();
+            
+            var aspect = (float)Screen.width / Screen.height;
+            
+            cam.orthographicSize = unitsWidth * 0.5f / aspect;
         }
     }
 }
