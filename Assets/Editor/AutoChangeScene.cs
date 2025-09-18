@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Editor
@@ -11,9 +12,19 @@ namespace Editor
     [InitializeOnLoad]
     public class AutoChangeScene
     {
-        static AutoChangeScene()
+        static AutoChangeScene() => EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+
+        private static void ChangeScene()
         {
-            EditorSceneManager.playModeStartScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(SceneUtility.GetScenePathByBuildIndex(0));
+            EditorSceneManager.playModeStartScene =
+                SceneUtility.GetBuildIndexByScenePath(SceneManager.GetActiveScene().path) >= 0
+                    ? AssetDatabase.LoadAssetAtPath<SceneAsset>(SceneUtility.GetScenePathByBuildIndex(0))
+                    : null;
+        }
+        
+        private static void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.ExitingEditMode) ChangeScene();
         }
     }
 }

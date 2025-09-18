@@ -1,4 +1,6 @@
 using Core.Services.Audio;
+using Sirenix.OdinInspector;
+using Solo.MOST_IN_ONE;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.Extensions;
@@ -8,12 +10,16 @@ using AudioType = Core.Services.Audio.AudioType;
 namespace UI
 {
     [RequireComponent(typeof(Button))]
-    public class ClickSound : MonoBehaviour
+    public class ClickSound : SerializedMonoBehaviour
     {
         [Inject] private readonly AudioSystem _audioSystem;
         
         [SerializeField] private AudioBase sound;
         [SerializeField] private bool preloadSoundClip = true;
+        [SerializeField] private bool vibrate = true;
+        [ShowIf("vibrate"), SerializeField]
+        private Most_HapticFeedback.HapticTypes vibration = Most_HapticFeedback.HapticTypes.Selection;
+        
         private Button _button;
 
         private void Start()
@@ -38,6 +44,8 @@ namespace UI
         private void PlaySound()
         {
             _audioSystem.PlayClip(sound, AudioType.Sfx);
+            if (vibrate)
+                Most_HapticFeedback.Generate(vibration);
         }
     }
 }

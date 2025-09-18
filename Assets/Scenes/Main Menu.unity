@@ -503,6 +503,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8d343ead75f29469016f4d2fdb2889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   sound:
     clip:
       m_AssetGUID: baf0025774f07f549b3918ec1a363a75
@@ -513,6 +522,8 @@ MonoBehaviour:
     volume: 1
     releaseKey: perm
   preloadSoundClip: 1
+  vibrate: 1
+  vibration: 0
 --- !u!1 &310788878
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,6 +762,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8d343ead75f29469016f4d2fdb2889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   sound:
     clip:
       m_AssetGUID: baf0025774f07f549b3918ec1a363a75
@@ -761,6 +781,8 @@ MonoBehaviour:
     volume: 1
     releaseKey: perm
   preloadSoundClip: 1
+  vibrate: 1
+  vibration: 0
 --- !u!1 &609749135
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,6 +929,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8d343ead75f29469016f4d2fdb2889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   sound:
     clip:
       m_AssetGUID: baf0025774f07f549b3918ec1a363a75
@@ -917,6 +948,8 @@ MonoBehaviour:
     volume: 1
     releaseKey: perm
   preloadSoundClip: 1
+  vibrate: 1
+  vibration: 0
 --- !u!1 &794516695
 GameObject:
   m_ObjectHideFlags: 0

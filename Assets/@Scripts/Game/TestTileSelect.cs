@@ -1,3 +1,4 @@
+using Solo.MOST_IN_ONE;
 using UnityEngine;
 
 namespace Game
@@ -51,6 +52,8 @@ namespace Game
                     _pressTime = Time.time;
                     _isHolding = false;
                     _isPressed = true;
+                    
+                    Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.Selection);
                 }
             }
             
@@ -61,6 +64,8 @@ namespace Game
                     _selectedTile.transform.localScale = _originalScale * 1.5f;
                     _selectedTile.GetComponent<SpriteRenderer>().sortingOrder += 10000;
                     _isHolding = true;
+                    
+                    Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.Selection);
                 }
             }
             
