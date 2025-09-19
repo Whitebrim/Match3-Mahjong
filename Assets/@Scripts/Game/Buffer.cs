@@ -70,7 +70,7 @@ namespace Game
                     streak++;
                     if (streak < 3) continue;
                     
-                    Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.Success);
+                    Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.MediumImpact);
                     
                     tiles.RemoveRange(i - 2, 3);
                     
