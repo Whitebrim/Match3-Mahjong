@@ -16,9 +16,9 @@ namespace Game.Tiles
 
             for (var z = 0; z < sizeZ; z++)
             {
-                for (var y = 1; y < gridY - 1; y += 2)
+                for (var y = 1 + z % 2; y < gridY - 1; y += 2)
                 {
-                    for (var x = 1; x < gridX - 1; x += 2)
+                    for (var x = 1 + z % 2; x < gridX - 1; x += 2)
                     {
                         var pos = new Vector3Int(x, y, z);
                         var tile = new Tile
