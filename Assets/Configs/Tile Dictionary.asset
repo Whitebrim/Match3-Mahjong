@@ -227,3 +227,215 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: TileUI
+      Entry: 7
+      Data: 8|System.Collections.Generic.Dictionary`2[[Game.Tiles.TileType, Assembly-CSharp],[UnityEngine.AddressableAssets.AssetReferenceSprite,
+        Unity.Addressables]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 9|System.Collections.Generic.EnumEqualityComparer`1[[Game.Tiles.TileType,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 10|UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 6191cb4e86be6134abfd437da96e382f
+    - Name: m_SubObjectName
+      Entry: 1
+      Data: UI Apple
+    - Name: m_SubObjectType
+      Entry: 1
+      Data: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    - Name: m_SubObjectGUID
+      Entry: 1
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 11|UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 5b61fefbd4011a748958386af82060ab
+    - Name: m_SubObjectName
+      Entry: 1
+      Data: UI Banana
+    - Name: m_SubObjectType
+      Entry: 1
+      Data: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    - Name: m_SubObjectGUID
+      Entry: 1
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 12|UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 4cc1b5db03aeccc47bb68538237cd815
+    - Name: m_SubObjectName
+      Entry: 1
+      Data: UI Cherry
+    - Name: m_SubObjectType
+      Entry: 1
+      Data: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    - Name: m_SubObjectGUID
+      Entry: 1
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 13|UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 2f3090e908a8b1748b434718fc75eba4
+    - Name: m_SubObjectName
+      Entry: 1
+      Data: UI Watermelon
+    - Name: m_SubObjectType
+      Entry: 1
+      Data: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    - Name: m_SubObjectGUID
+      Entry: 1
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: 14|UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 061844c450edc4240965929756c9dcb0
+    - Name: m_SubObjectName
+      Entry: 1
+      Data: UI Water
+    - Name: m_SubObjectType
+      Entry: 1
+      Data: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    - Name: m_SubObjectGUID
+      Entry: 1
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: 15|UnityEngine.AddressableAssets.AssetReferenceSprite, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 8bc224d8b3b58694b87fb7cd79b94a9d
+    - Name: m_SubObjectName
+      Entry: 1
+      Data: UI Lemon
+    - Name: m_SubObjectType
+      Entry: 1
+      Data: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    - Name: m_SubObjectGUID
+      Entry: 1
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

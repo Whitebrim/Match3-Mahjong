@@ -32,7 +32,7 @@ namespace Game.Tiles
 
         public bool PlaceTile(Tile tile)
         {
-            var pos = tile.GridPosition;
+            var pos = tile.gridPosition;
             if (!CanPlace(pos)) return false;
             Grid[pos.x, pos.y, pos.z] = tile;
             for (var dx = -1; dx <= 1; dx++)

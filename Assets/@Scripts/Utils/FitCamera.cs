@@ -7,14 +7,21 @@ namespace Utils
     {
         public float unitsWidth;
 
-        [Sirenix.OdinInspector.Button]
+        private Camera _camera;
+        
         private void Start()
         {
-            var cam = GetComponent<Camera>();
-            
+            _camera = GetComponent<Camera>();
+
+            Fit();
+        }
+
+        [Sirenix.OdinInspector.Button]
+        public void Fit()
+        {
             var aspect = (float)Screen.width / Screen.height;
             
-            cam.orthographicSize = unitsWidth * 0.5f / aspect;
+            _camera.orthographicSize = unitsWidth * 0.5f / aspect;
         }
     }
 }

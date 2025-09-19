@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 96120139980384994}
   - component: {fileID: 5056695787616190917}
   - component: {fileID: 3852879362607495209}
+  - component: {fileID: -3580297841539952367}
   m_Layer: 3
   m_Name: Tile Apple
   m_TagString: Untagged
@@ -137,3 +138,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.35, y: 1.25}
   m_EdgeRadius: 0.34
+--- !u!114 &-3580297841539952367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3403809237569241270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25277eaba7fe4c84e91a573a6cdbbf3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Tiles.TileHolder
+  tile:
+    id: 0
+    type: 0
+    gridPosition: {x: 0, y: 0, z: 0}
+    isBlocked: 0
+    gameObject: {fileID: 0}

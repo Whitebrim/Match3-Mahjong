@@ -9,5 +9,6 @@ namespace Game.Tiles
     public class TileDictionaryConfig : SerializedScriptableObject
     {
         public readonly Dictionary<TileType, AssetReferenceGameObject> TilePrefabs = new();
+        public readonly Dictionary<TileType, AssetReferenceSprite> TileUI = new();
     }
 }

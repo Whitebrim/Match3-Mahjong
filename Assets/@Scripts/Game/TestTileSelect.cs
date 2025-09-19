@@ -1,3 +1,4 @@
+using Game.Tiles;
 using Solo.MOST_IN_ONE;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Game
     public class TestTileSelect : MonoBehaviour
     {
         [SerializeField] private LayerMask tileLayer;
+        [SerializeField] private Buffer buffer;
     
         private Camera _cam;
         private GameObject _selectedTile;
@@ -82,6 +84,8 @@ namespace Game
                     {
                         _selectedTile.gameObject.SetActive(false);
                     }
+
+                    buffer.AddTile(_selectedTile.GetComponent<TileHolder>().tile);
                 }
             
                 _selectedTile = null;

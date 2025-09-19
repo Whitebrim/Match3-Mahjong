@@ -1,4 +1,5 @@
 using Core.Services.AssetManagement;
+using Core.Services.SceneLoader;
 using VContainer;
 
 namespace Core.Infrastructure.StateMachine.States
@@ -16,6 +17,12 @@ namespace Core.Infrastructure.StateMachine.States
         public void Exit()
         {
             AddressablesCache.ReleaseAssets(ReleaseKey.Game);
+        }
+
+        public async void GameOver()
+        {
+            await SceneLoader.LoadSceneAsync(SceneNameConstants.MainMenu);
+            _stateMachine.Enter<MainMenuState>();
         }
     }
 }

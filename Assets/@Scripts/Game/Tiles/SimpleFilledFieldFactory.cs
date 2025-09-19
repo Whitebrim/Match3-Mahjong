@@ -23,11 +23,11 @@ namespace Game.Tiles
                         var pos = new Vector3Int(x, y, z);
                         var tile = new Tile
                         {
-                            ID = _nextId++,
-                            Type = (TileType)Random.Range(0, System.Enum.GetValues(typeof(TileType)).Length),
-                            GridPosition = pos,
-                            IsBlocked = z < sizeZ - 1,
-                            GameObject = null
+                            id = _nextId++,
+                            type = (TileType)Random.Range(0, System.Enum.GetValues(typeof(TileType)).Length),
+                            gridPosition = pos,
+                            isBlocked = z < sizeZ - 1,
+                            gameObject = null
                         };
                         if (!field.PlaceTile(tile))
                             throw new Exception("Unexpectedly can't place tile at " + pos);
