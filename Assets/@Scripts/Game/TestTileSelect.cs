@@ -6,6 +6,7 @@ namespace Game
 {
     public class TestTileSelect : MonoBehaviour
     {
+        [SerializeField] private TestFieldView fieldView;
         [SerializeField] private LayerMask tileLayer;
         [SerializeField] private Buffer buffer;
     
@@ -42,7 +43,7 @@ namespace Game
                 inputPos = touch.position;
             }
             
-            if (inputDown)
+            if (inputDown) // Touch begin
             {
                 Vector3 worldPos = _cam.ScreenToWorldPoint(inputPos);
                 GameObject topTile = GetTopTile(worldPos);
@@ -59,11 +60,11 @@ namespace Game
                 }
             }
             
-            if (_isPressed && inputHeld && _selectedTile != null)
+            if (_isPressed && inputHeld && _selectedTile != null) // Touch is Hold
             {
                 if (!_isHolding && Time.time - _pressTime > 0.2f)
                 {
-                    _selectedTile.transform.localScale = _originalScale * 1.5f;
+                    _selectedTile.transform.localScale = _originalScale * 1.3f;
                     _selectedTile.GetComponent<SpriteRenderer>().sortingOrder += 10000;
                     _isHolding = true;
                     
@@ -71,7 +72,7 @@ namespace Game
                 }
             }
             
-            if (_isPressed && inputUp)
+            if (_isPressed && inputUp) // Touch end
             {
                 if (_selectedTile != null)
                 {
@@ -82,8 +83,9 @@ namespace Game
                     }
                     else
                     {
-                        _selectedTile.gameObject.SetActive(false);
-                        buffer.AddTile(_selectedTile.GetComponent<TileHolder>().tile);
+                        var tile = _selectedTile.GetComponent<TileView>().Tile;
+                        if (fieldView.Field.DeactivateTile(tile))
+                            buffer.AddTile(tile);
                     }
                 }
             

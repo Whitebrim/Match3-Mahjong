@@ -154,5 +154,4 @@ MonoBehaviour:
     id: 0
     type: 0
     gridPosition: {x: 0, y: 0, z: 0}
-    isBlocked: 0
-    gameObject: {fileID: 0}
+  spriteRenderer: {fileID: 5056695787616190917}

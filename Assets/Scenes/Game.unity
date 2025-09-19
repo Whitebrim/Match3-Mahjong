@@ -1018,8 +1018,11 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  dimensions: {x: 5, y: 5, z: 5}
+    SerializationNodes:
+    - Name: Field
+      Entry: 6
+      Data: 
+  dimensions: {x: 7, y: 7, z: 3}
   fieldRoot: {fileID: 1534229485}
   fitCamera: {fileID: 880034968}
 --- !u!4 &1534229485
@@ -1049,6 +1052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b93689f01903457bb4192c5fd0c53440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.TestTileSelect
+  fieldView: {fileID: 1534229484}
   tileLayer:
     serializedVersion: 2
     m_Bits: 8

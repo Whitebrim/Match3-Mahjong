@@ -37,27 +37,59 @@ namespace Game.Tiles
             Grid[pos.x, pos.y, pos.z] = tile;
             for (var dx = -1; dx <= 1; dx++)
             for (var dy = -1; dy <= 1; dy++)
+            {
                 AddOrCreateOccupiedTile(tile, new Vector3Int(pos.x + dx, pos.y + dy, pos.z));
+                BlockTile(new Vector3Int(pos.x + dx, pos.y + dy, pos.z - 1));
+            }
+
             return true;
         }
 
-        private void AddOrCreateOccupiedTile(Tile tile, Vector3Int pos)
+        private void AddOrCreateOccupiedTile(Tile origin, Vector3Int pos)
         {
             if (Grid[pos.x, pos.y, pos.z] is Tile) return;
             Grid[pos.x, pos.y, pos.z] ??= new OccupiedTile();
-            (Grid[pos.x, pos.y, pos.z] as OccupiedTile)?.Origin.Add(tile);
+            (Grid[pos.x, pos.y, pos.z] as OccupiedTile)?.Origin.Add(origin);
         }
 
-        public void RemoveTile(Vector3Int pos) {
-            // Todo add checks if needed
+        private void BlockTile(Vector3Int pos)
+        {
+            if (pos.z < 0) return;
+            if (Grid[pos.x, pos.y, pos.z] is Tile tile)
+                tile.BlockedBy++;
+        }
+        
+        private void UnblockTile(Vector3Int pos)
+        {
+            if (pos.z < 0) return;
+            if (Grid[pos.x, pos.y, pos.z] is Tile tile)
+                tile.BlockedBy--;
+        }
+        
+        public bool DeactivateTile(Tile tile)
+        {
+            if (tile is null || tile.BlockedBy > 0) return false;
+            var pos = tile.gridPosition;
             for (var dx = -1; dx <= 1; dx++)
             for (var dy = -1; dy <= 1; dy++)
-                Grid[pos.x + dx, pos.y + dy, pos.z] = null;
-                    
+            {
+                if (Grid[pos.x + dx, pos.y + dy, pos.z] is OccupiedTile occupiedTile)
+                {
+                    occupiedTile.Origin.Remove(tile);
+                    if (occupiedTile.Origin.Count == 0)
+                        Grid[pos.x + dx, pos.y + dy, pos.z] = null;
+                }
+            }
+
+            tile.Active = false;
+            
             if (pos.z > 0) // Remove blocks
             {
-                // Todo add block remove
+                for (var dx = -1; dx <= 1; dx++)
+                for (var dy = -1; dy <= 1; dy++)
+                    UnblockTile(new Vector3Int(pos.x + dx, pos.y + dy, pos.z - 1));
             }
+            return true;
         }
         
         [Button("Debug Grid to Console", ButtonSizes.Medium)]

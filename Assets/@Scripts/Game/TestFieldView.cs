@@ -16,6 +16,8 @@ namespace Game
         
         [Inject] private readonly IObjectResolver _resolver;
 
+        public Field Field;
+
         [SerializeField] private Vector3Int dimensions = new(3, 3, 3);
         
         private static readonly AssetReferenceT<TileDictionaryConfig> ConfigReference = new(TileDictionarySOName);
@@ -40,16 +42,16 @@ namespace Game
             fitCamera.Fit();
             
             var factory = new SimpleFilledFieldFactory();
-            var field = factory.Create(dimensions.x, dimensions.y, dimensions.z);
-            for (var z = 0; z < field.Grid.GetLength(2); z++)
-            for (var y = 0; y < field.Grid.GetLength(1); y++)
-            for (var x = 0; x < field.Grid.GetLength(0); x++)
+            Field = factory.Create(dimensions.x, dimensions.y, dimensions.z);
+            for (var z = 0; z < Field.Grid.GetLength(2); z++)
+            for (var y = 0; y < Field.Grid.GetLength(1); y++)
+            for (var x = 0; x < Field.Grid.GetLength(0); x++)
             {
-                if (field.Grid[x, y, z] is not Tile tile) continue;
+                if (Field.Grid[x, y, z] is not Tile tile) continue;
                 var newTile = _resolver.Instantiate(_config.TilePrefabs[tile.type].LoadAndCache(ReleaseKey.Game), fieldRoot);
-                newTile.transform.SetLocalPositionAndRotation(new Vector3(x, y + z * 0.25f, z), Quaternion.identity);
+                newTile.transform.SetLocalPositionAndRotation(new Vector3(x, y * 0.96f + z * 0.25f, z), Quaternion.identity);
                 newTile.GetComponent<SpriteRenderer>().sortingOrder = z * 100 - y;
-                newTile.GetComponent<TileHolder>().tile = tile;
+                tile.View = newTile.GetComponent<TileView>();
             }
         }
     }

@@ -6,7 +6,7 @@ namespace Game.Tiles
 {
     public class SimpleFilledFieldFactory : FieldFactory
     {
-        private static int _nextId = 0;
+        private static int _nextId;
 
         public override Field Create(int sizeX, int sizeY, int sizeZ)
         {
@@ -25,9 +25,7 @@ namespace Game.Tiles
                         {
                             id = _nextId++,
                             type = (TileType)Random.Range(0, System.Enum.GetValues(typeof(TileType)).Length),
-                            gridPosition = pos,
-                            isBlocked = z < sizeZ - 1,
-                            gameObject = null
+                            gridPosition = pos
                         };
                         if (!field.PlaceTile(tile))
                             throw new Exception("Unexpectedly can't place tile at " + pos);
