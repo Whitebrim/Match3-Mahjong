@@ -24,6 +24,8 @@ namespace Game
         
         [SerializeField] private Image[] images = new Image[8];
         [SerializeField] private List<Tile> tiles = new List<Tile>(8);
+
+        private Tile _lastAddedTile;
         
         private async void Start()
         {
@@ -32,8 +34,20 @@ namespace Game
 
         public bool AddTile(Tile tile)
         {
-            tiles.Add(tile);
-            images[tiles.Count - 1].sprite = _config.TileUI[tile.type].LoadAndCache(ReleaseKey.Game);
+            _lastAddedTile = tile;
+            var inserted = false;
+            for (var i = 0; i < tiles.Count; i++)
+            {
+                if (tiles[i].type != tile.type) continue;
+                tiles.Insert(i + 1, tile);
+                inserted = true;
+                break;
+            }
+
+            if (!inserted)
+                tiles.Add(tile);
+            
+            UpdateBufferUI();
 
             CheckForMatch();
 
@@ -46,35 +60,36 @@ namespace Game
 
         private void CheckForMatch()
         {
-            var typeToIndices = new Dictionary<TileType, List<int>>();
+            if (tiles.Count < 3) return;
 
-            for (var i = 0; i < tiles.Count; i++)
+            var streak = 1;
+            for (var i = 1; i < tiles.Count; i++)
             {
-                var type = tiles[i].type;
-
-                if (!typeToIndices.TryGetValue(type, out var indices))
+                if (tiles[i].type == tiles[i - 1].type)
                 {
-                    indices = new List<int>(3);
-                    typeToIndices[type] = indices;
+                    streak++;
+                    if (streak < 3) continue;
+                    
+                    Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.Success);
+                    
+                    tiles.RemoveRange(i - 2, 3);
+                    
+                    UpdateBufferUI();
+
+                    return; // Can't be more than 1 match
                 }
 
-                indices.Add(i);
-
-                if (indices.Count != 3) continue;
-                
-                Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.Success);
-                
-                tiles.RemoveAt(indices[2]);
-                tiles.RemoveAt(indices[1]);
-                tiles.RemoveAt(indices[0]);
-
-                for (var j = 0; j < tiles.Count; j++)
-                    images[j].sprite = _config.TileUI[tiles[j].type].LoadAndCache(ReleaseKey.Game);
-                
-                for (var j = tiles.Count; j < images.Length; j++) images[j].sprite = null;
-                
-                return; // Can't be more than 1 match
+                streak = 1;
             }
+        }
+
+        private void UpdateBufferUI()
+        {
+            for (var i = 0; i < tiles.Count; i++)
+                images[i].sprite = _config.TileUI[tiles[i].type].LoadAndCache(ReleaseKey.Game);
+
+            for (var i = tiles.Count; i < images.Length; i++)
+                images[i].sprite = null;
         }
     }
 }
