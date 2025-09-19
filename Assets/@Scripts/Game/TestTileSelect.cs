@@ -83,9 +83,8 @@ namespace Game
                     else
                     {
                         _selectedTile.gameObject.SetActive(false);
+                        buffer.AddTile(_selectedTile.GetComponent<TileHolder>().tile);
                     }
-
-                    buffer.AddTile(_selectedTile.GetComponent<TileHolder>().tile);
                 }
             
                 _selectedTile = null;
