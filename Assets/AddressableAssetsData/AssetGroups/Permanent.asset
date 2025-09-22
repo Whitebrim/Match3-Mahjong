@@ -15,43 +15,8 @@ MonoBehaviour:
   m_GroupName: Permanent
   m_GUID: 205d943ddc117c748875293bd50e6963
   m_SerializeEntries:
-  - m_GUID: 061844c450edc4240965929756c9dcb0
-    m_Address: Assets/Art/Tiles/UI Water.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1276bbc6e4086474a86f17c299ca5ee3
-    m_Address: Assets/Art/Tiles/UI Icecream.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 16bd3928902ed8245b45103a1ac21f26
-    m_Address: Assets/Art/Tiles/UI Gold.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1cf2500a490f5a543ba4eee7242f5705
-    m_Address: Assets/Art/Tiles/UI Bell.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1efa2100d7b72074ab13b747338debd7
-    m_Address: Assets/Prefabs/Tiles/Tile Banana.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2f1b0cbebd459ce41ac45678dc4deff9
-    m_Address: Assets/Art/Tiles/UI Cheese.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2f3090e908a8b1748b434718fc75eba4
-    m_Address: Assets/Art/Tiles/UI Watermelon.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3e65face3d52dbd488033e46afba0ead
-    m_Address: Assets/Art/Tiles/UI Balloon.png
+  - m_GUID: 2a77e05804767a44da344cfbe500c398
+    m_Address: Tiles
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -60,113 +25,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 47652ab2798329b4daa615de492053be
-    m_Address: Assets/Prefabs/Tiles/Tile Apple.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4cc1b5db03aeccc47bb68538237cd815
-    m_Address: Assets/Art/Tiles/UI Cherry.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4d9e1058f10a3d7409f0bce0708aa722
-    m_Address: Assets/Art/Tiles/UI Lens.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5b61fefbd4011a748958386af82060ab
-    m_Address: Assets/Art/Tiles/UI Banana.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6191cb4e86be6134abfd437da96e382f
-    m_Address: Assets/Art/Tiles/UI Apple.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 61baa757f4afb134188124b8c4d377fe
-    m_Address: Assets/Art/Tiles/UI Carrot.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 69a6b5147215fb742865734fe641e029
-    m_Address: Assets/Art/Tiles/UI Tulip.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6de0dcf2be4a6cd40aceff63dbde5079
-    m_Address: Assets/Art/Tiles/UI Electro.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8578322f912e1fb4f9d1a1cd00c8763d
-    m_Address: "Assets/Art/Tiles/UI \u0421abbage.png"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 867decb8ca121ba458198a4843c9f502
-    m_Address: Assets/Art/TEMP_tiles.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8aabed480c3b1754493d39a8b54752eb
-    m_Address: Assets/Art/Tiles/Empty tile.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8bc224d8b3b58694b87fb7cd79b94a9d
-    m_Address: Assets/Art/Tiles/UI Lemon.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 98a564cd55f555841b79ef99cefd7811
-    m_Address: Assets/Art/Tiles/UI Kiwi.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9bf0753ed2fe08f4ea1ee439a9f97b40
-    m_Address: Assets/Prefabs/Tiles/Tile Watermelon.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b51a048e43ce6b54c9848a9f837990ed
-    m_Address: Assets/Art/Tiles/UI Cake.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: baf0025774f07f549b3918ec1a363a75
     m_Address: Click
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c7be7cf56f6682849b035e620e09a28d
-    m_Address: Assets/Art/Tiles/UI Rose.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cba8cc29ec5a139498b21ee462460647
-    m_Address: Assets/Prefabs/Tiles/Tile Lemon.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e56c5e9639da3ce4f8e2cd9f8c3d2462
-    m_Address: Assets/Art/Tiles/UI Fire.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f88af2f3bae4f694d9ea6bba6541779f
-    m_Address: Assets/Prefabs/Tiles/Tile Cherry.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f8c389ba4fd8c2f48a660825d4af0a80
-    m_Address: Assets/Art/Tiles/UI Pizza.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fc115bf0946cf6e4b8b4413fcf0e1847
-    m_Address: Assets/Prefabs/Tiles/Tile Water.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

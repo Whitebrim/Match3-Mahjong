@@ -3,6 +3,7 @@ using Core.Infrastructure.StateMachine.States;
 using Core.Services;
 using Core.Services.AssetManagement;
 using Core.Services.Audio;
+using Game.Tiles;
 using MessagePipe;
 using UnityEngine;
 using VContainer;
@@ -15,6 +16,7 @@ namespace Core.Infrastructure.DI
         [SerializeField] private AudioSystem audioSystem;
         [SerializeField] private MainThreadDispatcher mainThreadDispatcher;
         [SerializeField] private ConditionalAssetManager conditionalAssetManager;
+        [SerializeField] private TileDictionaryConfig tileDictionaryConfig;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -27,6 +29,7 @@ namespace Core.Infrastructure.DI
             builder.RegisterComponent(mainThreadDispatcher);
             
             builder.RegisterInstance(conditionalAssetManager);
+            builder.RegisterInstance(tileDictionaryConfig);
 
             builder.Register<GameStateMachine>(Lifetime.Singleton);
             builder.Register<BootstrapState>(Lifetime.Singleton);

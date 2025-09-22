@@ -46,7 +46,10 @@ namespace Utils.Extensions
         public static async UniTask<T> LoadAndCacheAsync<T>(this AssetReference asset, string releaseKey) where T : Object
         {
             if (asset.IsValid())
+            {
+                await asset.OperationHandle;
                 return asset.Asset as T;
+            }
 
             AddressablesCache.AddAsset(asset, releaseKey);
             return await asset.LoadAssetAsync<T>();

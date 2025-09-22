@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Core.Infrastructure.StateMachine;
 using Core.Infrastructure.StateMachine.States;
 using Core.Services.AssetManagement;
@@ -25,10 +24,12 @@ namespace Game
         [SerializeField] private Image[] images = new Image[8];
         [SerializeField] private List<Tile> tiles = new List<Tile>(8);
 
+        private int _activeSlots = 7; // One pay-walled slot
         private Tile _lastAddedTile;
         
         private async void Start()
         {
+            _activeSlots = 7;
             _config ??= await ConfigReference.LoadAndCacheAsync(ReleaseKey.Game);
         }
 
@@ -51,7 +52,7 @@ namespace Game
 
             CheckForMatch();
 
-            if (tiles.Count < 8) return true;
+            if (tiles.Count < _activeSlots) return true;
             
             ((GameState)StateMachine.CurrentState).GameOver();
             return false;
@@ -86,10 +87,32 @@ namespace Game
         private void UpdateBufferUI()
         {
             for (var i = 0; i < tiles.Count; i++)
-                images[i].sprite = _config.TileUI[tiles[i].type].LoadAndCache(ReleaseKey.Game);
+            {
+                images[i].sprite = _config.TileSprites[tiles[i].type].LoadAndCache(ReleaseKey.Game);
+                images[i].color = new Color(1, 1, 1, 1);
+            }
 
-            for (var i = tiles.Count; i < images.Length; i++)
+            for (var i = tiles.Count; i < _activeSlots; i++)
+            {
                 images[i].sprite = null;
+                images[i].color = new Color(1, 1, 1, 0);
+            }
+        }
+
+        public void ClearBuffer()
+        {
+            tiles.Clear();
+            _lastAddedTile = null;
+            UpdateBufferUI();
+        }
+
+        /// <summary>
+        /// Unlock pay-walled 8th slot
+        /// </summary>
+        public void UnlockSlot()
+        {
+            _activeSlots = 8;
+            UpdateBufferUI();
         }
     }
 }

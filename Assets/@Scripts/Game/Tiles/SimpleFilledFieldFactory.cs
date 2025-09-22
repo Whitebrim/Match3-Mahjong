@@ -24,7 +24,7 @@ namespace Game.Tiles
                         var tile = new Tile
                         {
                             id = _nextId++,
-                            type = (TileType)Random.Range(0, System.Enum.GetValues(typeof(TileType)).Length),
+                            type = (TileType)Random.Range(0, Enum.GetValues(typeof(TileType)).Length),
                             gridPosition = pos
                         };
                         if (!field.PlaceTile(tile))

@@ -8,7 +8,7 @@ namespace Game.Tiles
     [CreateAssetMenu(menuName = "Scriptable Objects/TileDictionaryConfig", fileName = "new TileDictionaryConfig")]
     public class TileDictionaryConfig : SerializedScriptableObject
     {
-        public readonly Dictionary<TileType, AssetReferenceGameObject> TilePrefabs = new();
-        public readonly Dictionary<TileType, AssetReferenceSprite> TileUI = new();
+        public readonly TileView TilePrefab;
+        public readonly Dictionary<TileType, AssetReferenceSprite> TileSprites = new();
     }
 }
