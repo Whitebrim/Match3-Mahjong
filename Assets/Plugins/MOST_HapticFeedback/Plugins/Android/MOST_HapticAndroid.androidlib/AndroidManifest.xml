@@ -2,14 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yourcompany.hapticlib">
 
-    <!-- Essential Vibration Permission -->
-    <uses-permission android:name="android.permission.VIBRATE" />
+    
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- Essential Vibration Permission -->
 
-    <!-- For Android 12+ compatibility -->
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-
-    <!-- Optional: Prevent Doze mode blocking -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Optional: Prevent Doze mode blocking -->
 
     <application android:allowBackup="true">
         <!-- Your library components (if any) -->
