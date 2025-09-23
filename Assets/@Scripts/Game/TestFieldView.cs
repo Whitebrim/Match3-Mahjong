@@ -31,8 +31,7 @@ namespace Game
         {
             fieldRoot.DestroyAllChildren();
             fieldRoot.localPosition = new Vector3(-dimX, -dimY, 0);
-            fitCamera.unitsWidth = dimX * 2 + 1;
-            fitCamera.Fit();
+            fitCamera.Fit(dimX * 2 + 1);
             
             var factory = new SimpleFilledFieldFactory();
             Field = factory.Create(dimX, dimY, dimZ);
