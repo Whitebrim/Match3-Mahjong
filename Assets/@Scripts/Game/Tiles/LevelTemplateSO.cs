@@ -33,6 +33,8 @@ namespace Game.Tiles
         
         #endregion
 
+#if UNITY_EDITOR
+        
         #region Layer Navigation
         
         [PropertyOrder(1)]
@@ -141,9 +143,7 @@ namespace Game.Tiles
             
             Field[x, y, layer] = !Field[x, y, layer];
             
-            #if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
-            #endif
         }
         
         private bool IsBlockedByNeighbors(int x, int y, int layer)
@@ -1256,5 +1256,7 @@ namespace Game.Tiles
             Field = newField;
             currentLayer = Mathf.Clamp(currentLayer, 0, LayersMaxIndex);
         }
+
+#endif
     }
 }
