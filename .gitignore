@@ -97,3 +97,4 @@ crashlytics-build.properties
 *.unitypackage
 .collabignore
 /.utmp
+Assets/Plugins/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
