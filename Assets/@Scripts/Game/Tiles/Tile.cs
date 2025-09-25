@@ -8,14 +8,15 @@ namespace Game.Tiles
     {
         private bool _active = true;
         private int _blockedBy = 0;
+        private int _blockedByLayers = 0;
         
-        public int id;
         public TileType type;
         public Vector3Int gridPosition;
         private TileView _view;
         
         public event Action<bool> OnActiveChanged;
         public event Action<int> OnBlockedChanged;
+        public event Action<int> OnBlockedLayersChanged;
         
         public TileView View
         {
@@ -46,6 +47,17 @@ namespace Game.Tiles
                 if (_blockedBy == value) return;
                 _blockedBy = value;
                 OnBlockedChanged?.Invoke(_blockedBy);
+            }
+        }
+        
+        public int BlockedByLayers
+        {
+            get => _blockedByLayers;
+            set
+            {
+                if (_blockedByLayers == value) return;
+                _blockedByLayers = value;
+                OnBlockedLayersChanged?.Invoke(_blockedByLayers);
             }
         }
     }

@@ -268,7 +268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &224698260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1816,7 +1816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1078946291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1994,7 +1994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1178159823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2431,6 +2431,7 @@ MonoBehaviour:
   defaultDimensions: {x: 7, y: 9, z: 3}
   fieldRoot: {fileID: 1534229485}
   fitCamera: {fileID: 880034968}
+  levelTemplate: {fileID: 11400000, guid: ee23293e580ffb9449891f21b1a4b176, type: 2}
 --- !u!4 &1534229485
 Transform:
   m_ObjectHideFlags: 0

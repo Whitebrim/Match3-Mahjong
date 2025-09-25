@@ -1,16 +1,19 @@
-using Game;
 using TMPro;
 using UnityEngine;
 
-public class TestRegenerate : MonoBehaviour
+namespace Game
 {
-    [SerializeField] private TMP_InputField x, y, z;
-    [SerializeField] private TestFieldView testFieldView;
-    [SerializeField] private Buffer buffer;
-
-    public void Regenerate()
+    public class TestRegenerate : MonoBehaviour
     {
-        buffer.ClearBuffer();
-        testFieldView.GenerateNewMap(int.Parse(x.text), int.Parse(y.text), int.Parse(z.text));
+        [SerializeField] private TMP_InputField x, y, z;
+        [SerializeField] private TestFieldView testFieldView;
+        [SerializeField] private Buffer buffer;
+
+        public void Regenerate()
+        {
+            buffer.ClearBuffer();
+            //testFieldView.GenerateNewMap(int.Parse(x.text), int.Parse(y.text), int.Parse(z.text));
+            testFieldView.GenerateNewMap();
+        }
     }
 }

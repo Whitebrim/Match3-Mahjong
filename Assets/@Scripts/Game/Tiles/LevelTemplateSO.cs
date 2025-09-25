@@ -15,20 +15,20 @@ namespace Game.Tiles
         [TitleGroup("Level Dimensions")]
         [HorizontalGroup("Level Dimensions/Dimensions")]
         [LabelWidth(50)]
-        [MinValue(1), MaxValue(20)]
+        [MinValue(1), MaxValue(25)]
         public int width = 13;
         
         [PropertyOrder(0)]
         [HorizontalGroup("Level Dimensions/Dimensions")]
         [LabelWidth(50)]
-        [MinValue(1), MaxValue(20)]
+        [MinValue(1), MaxValue(25)]
         public int height = 17;
         
         [PropertyOrder(0)]
         [HorizontalGroup("Level Dimensions/Dimensions")]
         [LabelWidth(50)]
         [MinValue(1), MaxValue(20)]
-        public int layers = 3;
+        public int layers = 5;
         private int LayersMaxIndex => layers - 1;
         
         #endregion
@@ -257,6 +257,8 @@ namespace Game.Tiles
                     Field[x, y, currentLayer] = Field[x, y, currentLayer - 1];
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(4)]
@@ -278,6 +280,8 @@ namespace Game.Tiles
                     Field[x, y, currentLayer] = Field[x, y, currentLayer + 1];
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(4)]
@@ -310,6 +314,51 @@ namespace Game.Tiles
             }
             
             Field = reversedField;
+            
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        
+        [PropertyOrder(4)]
+        [ButtonGroup("Actions/Buttons")]
+        [Button(ButtonSizes.Large)]
+        [GUIColor(0.8f, 0.3f, 0.3f)]
+        [EnableIf("@layers > 1")]
+        private void DeleteLayer()
+        {
+   
+            if (!UnityEditor.EditorUtility.DisplayDialog("Delete Layer",
+                    $"Are you sure you want to delete Layer {currentLayer + 1}?\nThis action cannot be undone.",
+                    "Yes", "No")) 
+                return;
+            
+            bool[,,] newField = new bool[width, height, layers - 1];
+            
+            int newLayerIndex = 0;
+            for (int oldLayerIndex = 0; oldLayerIndex < layers; oldLayerIndex++)
+            {
+                if (oldLayerIndex == currentLayer)
+                    continue;
+                
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        newField[x, y, newLayerIndex] = Field[x, y, oldLayerIndex];
+                    }
+                }
+        
+                newLayerIndex++;
+            }
+            
+            Field = newField;
+            layers--;
+            
+            if (currentLayer >= layers)
+            {
+                currentLayer = layers - 1;
+            }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(4)]
@@ -331,6 +380,8 @@ namespace Game.Tiles
                     Field[x, y, currentLayer] = false;
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(4)]
@@ -345,8 +396,208 @@ namespace Game.Tiles
                 return;
             
             Field = new bool[width, height, layers];
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
+        [PropertyOrder(4)]
+        [TitleGroup("Actions")]
+        [PropertySpace(SpaceBefore = 10)]
+        [InfoBox("Move all tiles on current layer")]
+        [OnInspectorGUI]
+        private void DrawDPad()
+        {
+            GUILayout.Space(5);
+            
+            // Центрируем D-pad
+            GUILayout.BeginHorizontal();
+            //GUILayout.FlexibleSpace();
+            
+            GUILayout.BeginVertical();
+            
+            // Верхняя кнопка
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(30);
+            
+            GUI.backgroundColor = Color.cyan;
+            if (GUILayout.Button("▲", GUILayout.Width(40), GUILayout.Height(30)))
+            {
+                MoveTilesUp();
+            }
+            
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            
+            // Средний ряд с левой и правой кнопками
+            GUILayout.BeginHorizontal();
+            
+            GUI.backgroundColor = Color.cyan;
+            if (GUILayout.Button("◄", GUILayout.Width(40), GUILayout.Height(30)))
+            {
+                MoveTilesLeft();
+            }
+            
+            GUILayout.Space(11); // Промежуток между кнопками
+            
+            GUI.backgroundColor = Color.cyan;
+            if (GUILayout.Button("►", GUILayout.Width(40), GUILayout.Height(30)))
+            {
+                MoveTilesRight();
+            }
+            
+            GUILayout.EndHorizontal();
+            
+            // Нижняя кнопка
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(30);
+            
+            GUI.backgroundColor = Color.cyan;
+            if (GUILayout.Button("▼", GUILayout.Width(40), GUILayout.Height(30)))
+            {
+                MoveTilesDown();
+            }
+            
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            
+            GUILayout.EndVertical();
+            
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            
+            GUI.backgroundColor = Color.white;
+            
+            GUILayout.Space(5);
+        }
+
+        private void MoveTilesUp()
+        {
+            if (Field == null) return;
+            
+            bool[,] tempLayer = new bool[width, height];
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (Field[x, y, currentLayer])
+                    {
+                        int newY = y + 1;
+                        if (newY < height)
+                        {
+                            tempLayer[x, newY] = true;
+                        }
+                    }
+                }
+            }
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Field[x, y, currentLayer] = tempLayer[x, y];
+                }
+            }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+
+        private void MoveTilesDown()
+        {
+            if (Field == null) return;
+            
+            bool[,] tempLayer = new bool[width, height];
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (Field[x, y, currentLayer])
+                    {
+                        int newY = y - 1;
+                        if (newY >= 0)
+                        {
+                            tempLayer[x, newY] = true;
+                        }
+                    }
+                }
+            }
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Field[x, y, currentLayer] = tempLayer[x, y];
+                }
+            }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+
+        private void MoveTilesLeft()
+        {
+            if (Field == null) return;
+            
+            bool[,] tempLayer = new bool[width, height];
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (Field[x, y, currentLayer])
+                    {
+                        int newX = x - 1;
+                        if (newX >= 0)
+                        {
+                            tempLayer[newX, y] = true;
+                        }
+                    }
+                }
+            }
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Field[x, y, currentLayer] = tempLayer[x, y];
+                }
+            }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+
+        private void MoveTilesRight()
+        {
+            if (Field == null) return;
+            
+            bool[,] tempLayer = new bool[width, height];
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (Field[x, y, currentLayer])
+                    {
+                        int newX = x + 1;
+                        if (newX < width)
+                        {
+                            tempLayer[newX, y] = true;
+                        }
+                    }
+                }
+            }
+            
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Field[x, y, currentLayer] = tempLayer[x, y];
+                }
+            }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        
         #endregion
 
         #region Templates
@@ -381,6 +632,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(5)]
@@ -414,6 +667,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(5)]
@@ -436,6 +691,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(5)]
@@ -475,6 +732,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(5)]
@@ -512,6 +771,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(5)]
@@ -555,6 +816,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]
@@ -562,33 +825,34 @@ namespace Game.Tiles
         [Button("Circle", ButtonSizes.Medium)]
         private void GenerateCircle()
         {
-            if (UnityEditor.EditorUtility.DisplayDialog("Generate Circle",
-                "This will overwrite the current level. Continue?", "Yes", "No"))
+            if (!UnityEditor.EditorUtility.DisplayDialog("Generate Circle",
+                    "This will overwrite the current level. Continue?", "Yes", "No")) return;
+            
+            Field = new bool[width, height, layers];
+                
+            int centerX = width / 2;
+            int centerY = height / 2;
+            float maxRadius = Mathf.Min(width, height) / 2.5f;
+                
+            for (int layer = 0; layer < layers; layer++)
             {
-                Field = new bool[width, height, layers];
-                
-                int centerX = width / 2;
-                int centerY = height / 2;
-                float maxRadius = Mathf.Min(width, height) / 2.5f;
-                
-                for (int layer = 0; layer < layers; layer++)
-                {
-                    float layerRadius = maxRadius - layer * 1.5f;
-                    if (layerRadius <= 0) break;
+                float layerRadius = maxRadius - layer * 1.5f;
+                if (layerRadius <= 0) break;
                     
-                    for (int x = 0; x < width; x += 2)
+                for (int x = 0; x < width; x += 2)
+                {
+                    for (int y = 0; y < height; y += 2)
                     {
-                        for (int y = 0; y < height; y += 2)
+                        float distance = Mathf.Sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
+                        if (distance <= layerRadius && distance >= layerRadius - 2)
                         {
-                            float distance = Mathf.Sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
-                            if (distance <= layerRadius && distance >= layerRadius - 2)
-                            {
-                                Field[x, y, layer] = true;
-                            }
+                            Field[x, y, layer] = true;
                         }
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]
@@ -596,42 +860,43 @@ namespace Game.Tiles
         [Button("Star", ButtonSizes.Medium)]
         private void GenerateStar()
         {
-            if (UnityEditor.EditorUtility.DisplayDialog("Generate Star",
-                "This will overwrite the current level. Continue?", "Yes", "No"))
+            if (!UnityEditor.EditorUtility.DisplayDialog("Generate Star",
+                    "This will overwrite the current level. Continue?", "Yes", "No")) return;
+            
+            Field = new bool[width, height, layers];
+                
+            int centerX = width / 2;
+            int centerY = height / 2;
+                
+            for (int layer = 0; layer < layers; layer++)
             {
-                Field = new bool[width, height, layers];
-                
-                int centerX = width / 2;
-                int centerY = height / 2;
-                
-                for (int layer = 0; layer < layers; layer++)
-                {
-                    float scale = 1f - layer * 0.2f;
-                    int radius = Mathf.RoundToInt(Mathf.Min(width, height) * 0.35f * scale);
+                float scale = 1f - layer * 0.2f;
+                int radius = Mathf.RoundToInt(Mathf.Min(width, height) * 0.35f * scale);
                     
-                    for (int angle = 0; angle < 360; angle += 36)
+                for (int angle = 0; angle < 360; angle += 36)
+                {
+                    bool isOuter = (angle / 36) % 2 == 0;
+                    float currentRadius = isOuter ? radius : radius * 0.5f;
+                        
+                    float rad = angle * Mathf.Deg2Rad;
+                        
+                    for (float r = 0; r <= currentRadius; r += 1f)
                     {
-                        bool isOuter = (angle / 36) % 2 == 0;
-                        float currentRadius = isOuter ? radius : radius * 0.5f;
-                        
-                        float rad = angle * Mathf.Deg2Rad;
-                        
-                        for (float r = 0; r <= currentRadius; r += 1f)
+                        int x = centerX + Mathf.RoundToInt(Mathf.Cos(rad) * r);
+                        int y = centerY + Mathf.RoundToInt(Mathf.Sin(rad) * r);
+                            
+                        x = (x / 2) * 2;
+                        y = (y / 2) * 2;
+                            
+                        if (x >= 0 && x < width && y >= 0 && y < height)
                         {
-                            int x = centerX + Mathf.RoundToInt(Mathf.Cos(rad) * r);
-                            int y = centerY + Mathf.RoundToInt(Mathf.Sin(rad) * r);
-                            
-                            x = (x / 2) * 2;
-                            y = (y / 2) * 2;
-                            
-                            if (x >= 0 && x < width && y >= 0 && y < height)
-                            {
-                                Field[x, y, layer] = true;
-                            }
+                            Field[x, y, layer] = true;
                         }
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]
@@ -639,63 +904,62 @@ namespace Game.Tiles
         [Button("Flower", ButtonSizes.Medium)]
         private void GenerateFlower()
         {
-            if (UnityEditor.EditorUtility.DisplayDialog("Generate Flower",
-                "This will overwrite the current level. Continue?", "Yes", "No"))
+            if (!UnityEditor.EditorUtility.DisplayDialog("Generate Flower",
+                    "This will overwrite the current level. Continue?", "Yes", "No")) return;
+            
+            Field = new bool[width, height, layers];
+                
+            int centerX = width / 2;
+            int centerY = height / 2;
+                
+            for (int layer = 0; layer < layers; layer++)
             {
-                Field = new bool[width, height, layers];
-                
-                int centerX = width / 2;
-                int centerY = height / 2;
-                
-                for (int layer = 0; layer < layers; layer++)
-                {
-                    float scale = 1f - layer * 0.15f;
+                float scale = 1f - layer * 0.15f;
                     
-                    for (int dx = -1; dx <= 1; dx++)
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    for (int dy = -1; dy <= 1; dy++)
                     {
-                        for (int dy = -1; dy <= 1; dy++)
+                        int x = centerX + dx * 2;
+                        int y = centerY + dy * 2;
+                        if (x >= 0 && x < width && y >= 0 && y < height)
                         {
-                            int x = centerX + dx * 2;
-                            int y = centerY + dy * 2;
-                            if (x >= 0 && x < width && y >= 0 && y < height)
-                            {
-                                Field[x, y, layer] = true;
-                            }
+                            Field[x, y, layer] = true;
                         }
                     }
+                }
                     
-                    for (int petal = 0; petal < 6; petal++)
-                    {
-                        float angle = petal * 60f * Mathf.Deg2Rad;
-                        int petalLength = Mathf.RoundToInt(4 * scale);
+                for (int petal = 0; petal < 6; petal++)
+                {
+                    float angle = petal * 60f * Mathf.Deg2Rad;
+                    int petalLength = Mathf.RoundToInt(4 * scale);
                         
-                        for (int i = 1; i <= petalLength; i++)
+                    for (int i = 1; i <= petalLength; i++)
+                    {
+                        int x = centerX + Mathf.RoundToInt(Mathf.Cos(angle) * i * 2);
+                        int y = centerY + Mathf.RoundToInt(Mathf.Sin(angle) * i * 2);
+                            
+                        x = (x / 2) * 2;
+                        y = (y / 2) * 2;
+                            
+                        if (x >= 0 && x < width && y >= 0 && y < height)
                         {
-                            int x = centerX + Mathf.RoundToInt(Mathf.Cos(angle) * i * 2);
-                            int y = centerY + Mathf.RoundToInt(Mathf.Sin(angle) * i * 2);
-                            
-                            x = (x / 2) * 2;
-                            y = (y / 2) * 2;
-                            
-                            if (x >= 0 && x < width && y >= 0 && y < height)
-                            {
-                                Field[x, y, layer] = true;
+                            Field[x, y, layer] = true;
                                 
-                                if (i > 1 && i < petalLength)
+                            if (i > 1 && i < petalLength)
+                            {
+                                for (int side = -1; side <= 1; side += 2)
                                 {
-                                    for (int side = -1; side <= 1; side += 2)
+                                    float sideAngle = angle + side * 30f * Mathf.Deg2Rad;
+                                    int sx = x + Mathf.RoundToInt(Mathf.Cos(sideAngle) * 2);
+                                    int sy = y + Mathf.RoundToInt(Mathf.Sin(sideAngle) * 2);
+                                        
+                                    sx = (sx / 2) * 2;
+                                    sy = (sy / 2) * 2;
+                                        
+                                    if (sx >= 0 && sx < width && sy >= 0 && sy < height)
                                     {
-                                        float sideAngle = angle + side * 30f * Mathf.Deg2Rad;
-                                        int sx = x + Mathf.RoundToInt(Mathf.Cos(sideAngle) * 2);
-                                        int sy = y + Mathf.RoundToInt(Mathf.Sin(sideAngle) * 2);
-                                        
-                                        sx = (sx / 2) * 2;
-                                        sy = (sy / 2) * 2;
-                                        
-                                        if (sx >= 0 && sx < width && sy >= 0 && sy < height)
-                                        {
-                                            Field[sx, sy, layer] = true;
-                                        }
+                                        Field[sx, sy, layer] = true;
                                     }
                                 }
                             }
@@ -703,6 +967,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]
@@ -710,31 +976,32 @@ namespace Game.Tiles
         [Button("Butterfly", ButtonSizes.Medium)]
         private void GenerateButterfly()
         {
-            if (UnityEditor.EditorUtility.DisplayDialog("Generate Butterfly",
-                "This will overwrite the current level. Continue?", "Yes", "No"))
+            if (!UnityEditor.EditorUtility.DisplayDialog("Generate Butterfly",
+                    "This will overwrite the current level. Continue?", "Yes", "No")) return;
+            
+            Field = new bool[width, height, layers];
+                
+            int centerX = width / 2;
+            int centerY = height / 2;
+                
+            for (int layer = 0; layer < layers; layer++)
             {
-                Field = new bool[width, height, layers];
-                
-                int centerX = width / 2;
-                int centerY = height / 2;
-                
-                for (int layer = 0; layer < layers; layer++)
+                float scale = 1f - layer * 0.1f;
+                    
+                for (int y = centerY - 6; y <= centerY + 6; y += 2)
                 {
-                    float scale = 1f - layer * 0.1f;
-                    
-                    for (int y = centerY - 6; y <= centerY + 6; y += 2)
+                    if (y >= 0 && y < height)
                     {
-                        if (y >= 0 && y < height)
-                        {
-                            Field[centerX, y, layer] = true;
-                        }
+                        Field[centerX, y, layer] = true;
                     }
-                    
-                    GenerateButterflyWing(centerX, centerY, -1, layer, scale);
-                    
-                    GenerateButterflyWing(centerX, centerY, 1, layer, scale);
                 }
+                    
+                GenerateButterflyWing(centerX, centerY, -1, layer, scale);
+                    
+                GenerateButterflyWing(centerX, centerY, 1, layer, scale);
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         private void GenerateButterflyWing(int centerX, int centerY, int side, int layer, float scale)
@@ -811,6 +1078,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         private float GetMountainPeak(int x, float peakX, float peakHeight, float peakWidth)
@@ -858,6 +1127,8 @@ namespace Game.Tiles
                     Field[x, y, layer] = false;
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]
@@ -932,6 +1203,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]
@@ -962,6 +1235,8 @@ namespace Game.Tiles
                     if (rightX >= 0) Field[rightX, y, layer] = true;
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
         
         [PropertyOrder(5)]
@@ -995,6 +1270,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]
@@ -1033,6 +1310,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]
@@ -1165,6 +1444,8 @@ namespace Game.Tiles
                     }
                 }
             }
+            
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 
         [PropertyOrder(5)]

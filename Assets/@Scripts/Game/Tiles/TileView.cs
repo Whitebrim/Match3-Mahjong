@@ -13,8 +13,7 @@ namespace Game.Tiles
         [SerializeField, CanBeNull] private Tile tile;
         [SerializeField] private SpriteRenderer spriteRenderer;
 
-        private readonly Color _normalColor = Color.white;
-        private readonly Color _blockedColor = new(0.6f, 0.6f, 0.6f);
+        [SerializeField] private float colorTint = 0.15f;
 
         public Tile Tile
         {
@@ -24,7 +23,7 @@ namespace Game.Tiles
                 if (tile != null)
                 {
                     tile.OnActiveChanged -= SetActive;
-                    tile.OnBlockedChanged -= OnBlockedChanged;
+                    tile.OnBlockedLayersChanged -= OnBlockedChanged;
                 }
                 
                 tile = value;
@@ -32,7 +31,7 @@ namespace Game.Tiles
                 if (tile != null)
                 {
                     tile.OnActiveChanged += SetActive;
-                    tile.OnBlockedChanged += OnBlockedChanged;
+                    tile.OnBlockedLayersChanged += OnBlockedChanged;
                     UpdateView();
                 }
             }
@@ -42,7 +41,7 @@ namespace Game.Tiles
         {
             if (tile == null) return;
             
-            OnBlockedChanged(tile.BlockedBy);
+            OnBlockedChanged(tile.BlockedByLayers);
             SetActive(tile.Active);
             UpdatePosition(tile.gridPosition);
             SetSprite(tile.type);
@@ -57,9 +56,14 @@ namespace Game.Tiles
 
         private void SetSortingOrder(Vector3Int pos) => spriteRenderer.sortingOrder = pos.z * 100 - pos.y;
 
-        private void OnBlockedChanged(int blocks) => TintTile(blocks > 0);
+        private void OnBlockedChanged(int blocks) => TintTile(blocks);
 
-        private void TintTile(bool tint) => spriteRenderer.color = tint ? _blockedColor : _normalColor;
+        private void TintTile(int tintLevel)
+        {
+            var brightness = 1 - tintLevel * colorTint;
+            spriteRenderer.color = new Color(brightness, brightness,
+                brightness);
+        }
 
         private void SetActive(bool value) => gameObject.SetActive(value);
     }

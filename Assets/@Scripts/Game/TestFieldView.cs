@@ -15,26 +15,27 @@ namespace Game
 
         public Field Field;
 
-        [SerializeField] private Vector3Int defaultDimensions = new(7, 7, 3);
+        [SerializeField] private Vector3Int defaultDimensions = new(7, 9, 5);
 
         [SerializeField] private Transform fieldRoot;
 
         [SerializeField] private FitCamera fitCamera;
+
+        [SerializeField] private LevelTemplateSO levelTemplate;
         
         private void Start()
         {
-            GenerateNewMap(defaultDimensions.x, defaultDimensions.y, defaultDimensions.z);
+            GenerateNewMap();
         }
-
-        [Button(ButtonSizes.Medium)]
-        public void GenerateNewMap(int dimX, int dimY, int dimZ)
+        
+        public void GenerateNewMap()
         {
             fieldRoot.DestroyAllChildren();
-            fieldRoot.localPosition = new Vector3(-dimX, -dimY, 0);
-            fitCamera.Fit(dimX * 2 + 1);
+            fieldRoot.localPosition = new Vector3(-((levelTemplate.width + 1) / 2), -((levelTemplate.height + 1) / 2), 0);
+            fitCamera.Fit(levelTemplate.width + 2);
             
-            var factory = new SimpleFilledFieldFactory();
-            Field = factory.Create(dimX, dimY, dimZ);
+            var factory = new FieldFactoryFromTemplate(levelTemplate);
+            Field = factory.Create();
             for (var z = 0; z < Field.Grid.GetLength(2); z++)
             for (var y = 0; y < Field.Grid.GetLength(1); y++)
             for (var x = 0; x < Field.Grid.GetLength(0); x++)

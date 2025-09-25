@@ -30,18 +30,25 @@ namespace Game.Tiles
             return true;
         }
 
+        /// <summary>
+        /// !! Place tiles from top to bottom for block system to work.
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns></returns>
         public bool PlaceTile(Tile tile)
         {
             var pos = tile.gridPosition;
             if (!CanPlace(pos)) return false;
             Grid[pos.x, pos.y, pos.z] = tile;
+            
             for (var dx = -1; dx <= 1; dx++)
             for (var dy = -1; dy <= 1; dy++)
             {
                 AddOrCreateOccupiedTile(tile, new Vector3Int(pos.x + dx, pos.y + dy, pos.z));
-                BlockTile(new Vector3Int(pos.x + dx, pos.y + dy, pos.z - 1));
             }
 
+            UpdateBlockStatus(tile);
+            
             return true;
         }
 
@@ -51,19 +58,25 @@ namespace Game.Tiles
             Grid[pos.x, pos.y, pos.z] ??= new OccupiedTile();
             (Grid[pos.x, pos.y, pos.z] as OccupiedTile)?.Origin.Add(origin);
         }
-
-        private void BlockTile(Vector3Int pos)
-        {
-            if (pos.z < 0) return;
-            if (Grid[pos.x, pos.y, pos.z] is Tile tile)
-                tile.BlockedBy++;
-        }
         
-        private void UnblockTile(Vector3Int pos)
+        private void UpdateBlockStatus(Tile tile)
         {
-            if (pos.z < 0) return;
-            if (Grid[pos.x, pos.y, pos.z] is Tile tile)
-                tile.BlockedBy--;
+            var pos = tile.gridPosition;
+
+            tile.BlockedBy = 0;
+            
+            int maxBlockedLayers = 0;
+            for (var dx = -1; dx <= 1; dx++)
+            for (var dy = -1; dy <= 1; dy++)
+            {
+                if (pos.z >= _sizeZ - 1) continue;
+                if (Grid[pos.x + dx, pos.y + dy, pos.z + 1] is Tile { Active: true } tileAbove)
+                {
+                    maxBlockedLayers = Mathf.Max(maxBlockedLayers, tileAbove.BlockedByLayers);
+                    tile.BlockedBy++;
+                }
+            }
+            tile.BlockedByLayers = maxBlockedLayers + 1;
         }
         
         public bool DeactivateTile(Tile tile)
@@ -83,12 +96,17 @@ namespace Game.Tiles
 
             tile.Active = false;
             
-            if (pos.z > 0) // Remove blocks
+            if (pos.z > 0)
             {
-                for (var dx = -1; dx <= 1; dx++)
-                for (var dy = -1; dy <= 1; dy++)
-                    UnblockTile(new Vector3Int(pos.x + dx, pos.y + dy, pos.z - 1));
+                for (var z = _sizeZ - 2; z >= 0; z--)
+                for (var x = 1; x < _sizeX - 1; x++)
+                for (var y = 1; y < _sizeY - 1; y++)
+                {
+                    if (Grid[x, y, z] is Tile selectedTile)
+                        UpdateBlockStatus(selectedTile);
+                }
             }
+            
             return true;
         }
         
