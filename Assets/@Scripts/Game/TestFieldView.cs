@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Game.Tiles;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,6 +14,8 @@ namespace Game
     {
         [Inject] private readonly IObjectResolver _resolver;
         [Inject] private TileDictionaryConfig _config;
+        [SerializeField] private int types = 6;
+        [SerializeField, Range(0, 1)] private float difficulty = 0.5f;
 
         public Field Field;
 
@@ -33,8 +37,13 @@ namespace Game
             fieldRoot.DestroyAllChildren();
             fieldRoot.localPosition = new Vector3(-((levelTemplate.width + 1) / 2), -((levelTemplate.height + 1) / 2), 0);
             fitCamera.Fit(levelTemplate.width + 2);
-            
-            var factory = new FieldFactoryFromTemplate(levelTemplate);
+
+            var availableTypes = new List<TileType>();
+            for (var i = 0; i < types; i++)
+            {
+                availableTypes.Add((TileType)Enum.GetValues(typeof(TileType)).GetValue(i));
+            }
+            var factory = new FieldFactoryFromTemplate(levelTemplate, availableTypes, difficulty);
             Field = factory.Create();
             for (var z = 0; z < Field.Grid.GetLength(2); z++)
             for (var y = 0; y < Field.Grid.GetLength(1); y++)

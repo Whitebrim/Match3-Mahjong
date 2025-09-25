@@ -2428,10 +2428,12 @@ MonoBehaviour:
     - Name: Field
       Entry: 6
       Data: 
+  types: 9
+  difficulty: 1
   defaultDimensions: {x: 7, y: 9, z: 3}
   fieldRoot: {fileID: 1534229485}
   fitCamera: {fileID: 880034968}
-  levelTemplate: {fileID: 11400000, guid: ee23293e580ffb9449891f21b1a4b176, type: 2}
+  levelTemplate: {fileID: 11400000, guid: 84b8edc94d225e94d9e5712c55510cb4, type: 2}
 --- !u!4 &1534229485
 Transform:
   m_ObjectHideFlags: 0
