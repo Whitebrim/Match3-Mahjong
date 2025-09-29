@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Tiles;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using Utils;
 using Utils.Extensions;
@@ -26,14 +28,28 @@ namespace Game
         [SerializeField] private FitCamera fitCamera;
 
         [SerializeField] private LevelTemplateSO levelTemplate;
+
+        [SerializeField] private List<LevelTemplateSO> levelTemplateList;
+        [SerializeField] private TMP_Dropdown dropdown;
+        [SerializeField] private TMP_InputField typesInput;
         
         private void Start()
         {
             GenerateNewMap();
+            dropdown.ClearOptions();
+            dropdown.AddOptions(levelTemplateList.Select(x => x.name).ToList());
+            dropdown.onValueChanged.AddListener(SelectLevel);
+        }
+
+        private void SelectLevel(int id)
+        {
+            levelTemplate = levelTemplateList[id];
         }
         
         public void GenerateNewMap()
         {
+            types = int.Parse(typesInput.text);
+            
             fieldRoot.DestroyAllChildren();
             fieldRoot.localPosition = new Vector3(-((levelTemplate.width + 1) / 2), -((levelTemplate.height + 1) / 2), 0);
             fitCamera.Fit(levelTemplate.width + 2);
