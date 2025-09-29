@@ -66,7 +66,7 @@ namespace Game.Tiles
 
             tile.BlockedBy = 0;
             
-            int maxBlockedLayers = 0;
+            int maxBlockedLayers = -1;
             for (var dx = -1; dx <= 1; dx++)
             for (var dy = -1; dy <= 1; dy++)
             {
