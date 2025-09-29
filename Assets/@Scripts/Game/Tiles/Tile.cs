@@ -7,8 +7,9 @@ namespace Game.Tiles
     public class Tile : BaseTile
     {
         private bool _active = true;
-        private int _blockedBy = 0;
-        private int _blockedByLayers = 0;
+        private int _blockedBy;
+        private int _blockedByLayers;
+        private int _topmostTileInThisStack;
         
         public TileType type;
         public Vector3Int gridPosition;
@@ -17,6 +18,7 @@ namespace Game.Tiles
         public event Action<bool> OnActiveChanged;
         public event Action<int> OnBlockedChanged;
         public event Action<int> OnBlockedLayersChanged;
+        public event Action<int> OnTopmostTileInThisStackChanged;
         
         public TileView View
         {
@@ -28,6 +30,9 @@ namespace Game.Tiles
             }
         }
 
+        /// <summary>
+        /// Если игрок переместил этот тайл в буфер, то он деактивируется
+        /// </summary>
         public bool Active
         {
             get => _active;
@@ -39,6 +44,19 @@ namespace Game.Tiles
             }
         }
 
+        /// <summary>
+        /// Доступен ли тайл для сбора
+        /// </summary>
+        public bool IsObtainable => BlockedBy <= 0;
+        
+        /// <summary>
+        /// Заблокирован ли тайл для сбора
+        /// </summary>
+        public bool IsBlocked => BlockedBy > 0;
+        
+        /// <summary>
+        /// Сколько тайлов на слою выше прямо блочат этот тайл
+        /// </summary>
         public int BlockedBy
         {
             get => _blockedBy;
@@ -50,6 +68,9 @@ namespace Game.Tiles
             }
         }
         
+        /// <summary>
+        /// Сколько слоев выше блочат этот тайл (для шейда тени)
+        /// </summary>
         public int BlockedByLayers
         {
             get => _blockedByLayers;
@@ -58,6 +79,20 @@ namespace Game.Tiles
                 if (_blockedByLayers == value) return;
                 _blockedByLayers = value;
                 OnBlockedLayersChanged?.Invoke(_blockedByLayers);
+            }
+        }
+
+        /// <summary>
+        /// Какой Z у самого верхнего тайла в этой стопке (для ровного отображения стопок)
+        /// </summary>
+        public int TopmostTileInThisStack
+        {
+            get => _topmostTileInThisStack;
+            set
+            {
+                if (_topmostTileInThisStack == value) return;
+                _topmostTileInThisStack = value;
+                OnTopmostTileInThisStackChanged?.Invoke(_topmostTileInThisStack);
             }
         }
     }

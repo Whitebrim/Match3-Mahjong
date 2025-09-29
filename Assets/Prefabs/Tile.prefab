@@ -126,17 +126,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.14030212}
+  m_Offset: {x: 0, y: 0.17}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2.2916667}
+    oldSize: {x: 2, y: 2.1880343}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.3, y: 1.3}
+  m_Size: {x: 1.3, y: 1.15}
   m_EdgeRadius: 0.34
 --- !u!114 &-3580297841539952367
 MonoBehaviour:
@@ -151,7 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Tiles.TileHolder
   tile:
-    id: 0
     type: 0
     gridPosition: {x: 0, y: 0, z: 0}
   spriteRenderer: {fileID: 5056695787616190917}
+  colorTint: 0.15
+  yMultiplier: 0.93
+  depthShift: 0.36

@@ -16,6 +16,7 @@ namespace Game
         private float _pressTime;
         private bool _isHolding;
         private bool _isPressed;
+        private bool _isBlocked;
     
         void Start()
         {
@@ -55,12 +56,13 @@ namespace Game
                     _pressTime = Time.time;
                     _isHolding = false;
                     _isPressed = true;
+                    _isBlocked = _selectedTile.GetComponent<TileView>().Tile.IsBlocked;
                     
                     Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.Selection);
                 }
             }
             
-            if (_isPressed && inputHeld && _selectedTile != null) // Touch is Hold
+            if (_isPressed && inputHeld && _selectedTile != null && !_isBlocked) // Touch is Hold
             {
                 if (!_isHolding && Time.time - _pressTime > 0.2f)
                 {

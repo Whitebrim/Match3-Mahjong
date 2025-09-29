@@ -14,6 +14,8 @@ namespace Game.Tiles
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         [SerializeField] private float colorTint = 0.15f;
+        [SerializeField] private float yMultiplier = 0.93f;
+        [SerializeField] private float depthShift = 0.36f;
 
         public Tile Tile
         {
@@ -23,7 +25,9 @@ namespace Game.Tiles
                 if (tile != null)
                 {
                     tile.OnActiveChanged -= SetActive;
-                    tile.OnBlockedLayersChanged -= OnBlockedChanged;
+                    tile.OnBlockedChanged -= OnBlockedChanged;
+                    tile.OnBlockedLayersChanged -= OnBlockedLayersChanged;
+                    tile.OnTopmostTileInThisStackChanged -= OnTopmostTileInThisStackChanged;
                 }
                 
                 tile = value;
@@ -31,7 +35,9 @@ namespace Game.Tiles
                 if (tile != null)
                 {
                     tile.OnActiveChanged += SetActive;
-                    tile.OnBlockedLayersChanged += OnBlockedChanged;
+                    tile.OnBlockedChanged += OnBlockedChanged;
+                    tile.OnBlockedLayersChanged += OnBlockedLayersChanged;
+                    tile.OnTopmostTileInThisStackChanged += OnTopmostTileInThisStackChanged;
                     UpdateView();
                 }
             }
@@ -41,22 +47,25 @@ namespace Game.Tiles
         {
             if (tile == null) return;
             
-            OnBlockedChanged(tile.BlockedByLayers);
+            OnBlockedLayersChanged(tile.BlockedByLayers);
             SetActive(tile.Active);
-            UpdatePosition(tile.gridPosition);
+            UpdatePosition(tile.gridPosition, tile.TopmostTileInThisStack - tile.gridPosition.z);
             SetSprite(tile.type);
-            SetSortingOrder(tile.gridPosition);
+            UpdateSortingOrder(tile.gridPosition);
         }
         
-        private void UpdatePosition(Vector3Int pos) =>
-            transform.SetLocalPositionAndRotation(new Vector3(pos.x, pos.y + pos.z * 0.25f, pos.z), Quaternion.identity);
+        private void UpdatePosition(Vector3Int pos, int depth) =>
+            transform.SetLocalPositionAndRotation(new Vector3(pos.x, pos.y * yMultiplier - depth * depthShift, pos.z), Quaternion.identity);
 
         private async void SetSprite(TileType type) =>
             spriteRenderer.sprite = await _config.TileSprites[type].LoadAndCacheAsync(ReleaseKey.Game);
 
-        private void SetSortingOrder(Vector3Int pos) => spriteRenderer.sortingOrder = pos.z * 100 - pos.y;
+        private void UpdateSortingOrder(Vector3Int pos) =>
+            spriteRenderer.sortingOrder = (tile!.IsObtainable ? 10000 : pos.z * 100) - pos.y;
 
-        private void OnBlockedChanged(int blocks) => TintTile(blocks);
+        private void OnBlockedChanged(int blocks) => UpdateSortingOrder(tile!.gridPosition);
+        
+        private void OnBlockedLayersChanged(int blocks) => TintTile(blocks);
 
         private void TintTile(int tintLevel)
         {
@@ -66,5 +75,7 @@ namespace Game.Tiles
         }
 
         private void SetActive(bool value) => gameObject.SetActive(value);
+
+        private void OnTopmostTileInThisStackChanged(int newValue) => UpdatePosition(tile!.gridPosition, newValue - tile.gridPosition.z);
     }
 }

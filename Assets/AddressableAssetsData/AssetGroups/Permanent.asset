@@ -18,7 +18,8 @@ MonoBehaviour:
   - m_GUID: 2a77e05804767a44da344cfbe500c398
     m_Address: Tiles
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 448e3360fbe243c45aec13f1e740f17d
     m_Address: Tile Dictionary

@@ -48,6 +48,7 @@ namespace Game.Tiles
             }
 
             UpdateBlockStatus(tile);
+            UpdateTopmostFieldOnStack(pos.x, pos.y);
             
             return true;
         }
@@ -78,10 +79,21 @@ namespace Game.Tiles
             }
             tile.BlockedByLayers = maxBlockedLayers + 1;
         }
+
+        private void UpdateTopmostFieldOnStack(int x, int y)
+        {
+            int? topmost = null;
+            for (var z = _sizeZ - 1; z >= 0; z--)
+            {
+                if (Grid[x, y, z] is not Tile stackTile) continue;
+                topmost ??= z;
+                stackTile.TopmostTileInThisStack = topmost.Value;
+            }
+        }
         
         public bool DeactivateTile(Tile tile)
         {
-            if (tile is null || tile.BlockedBy > 0) return false;
+            if (tile is null || tile.IsBlocked) return false;
             var pos = tile.gridPosition;
             for (var dx = -1; dx <= 1; dx++)
             for (var dy = -1; dy <= 1; dy++)
@@ -105,6 +117,14 @@ namespace Game.Tiles
                     if (Grid[x, y, z] is Tile selectedTile)
                         UpdateBlockStatus(selectedTile);
                 }
+            }
+
+            int? topmost = null;
+            for (var z = pos.z - 1; z >= 0; z--)
+            {
+                if (Grid[pos.x, pos.y, z] is not Tile tileBelow) continue;
+                topmost ??= z;
+                tileBelow.TopmostTileInThisStack = topmost.Value;
             }
             
             return true;
