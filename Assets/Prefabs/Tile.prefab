@@ -154,6 +154,6 @@ MonoBehaviour:
     type: 0
     gridPosition: {x: 0, y: 0, z: 0}
   spriteRenderer: {fileID: 5056695787616190917}
-  colorTint: 0.12
+  colorTint: 0.4
   yMultiplier: 0.93
   depthShift: 0.36

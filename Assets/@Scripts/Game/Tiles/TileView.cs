@@ -69,7 +69,7 @@ namespace Game.Tiles
 
         private void TintTile(int tintLevel)
         {
-            var brightness = 1 - tintLevel * colorTint;
+            var brightness = 1 - Mathf.Clamp01(tintLevel) * colorTint;
             spriteRenderer.color = new Color(brightness, brightness,
                 brightness);
         }
