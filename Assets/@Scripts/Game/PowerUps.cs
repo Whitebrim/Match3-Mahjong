@@ -30,7 +30,7 @@ namespace Game
                 var typeCounts = new Dictionary<TileType, int>();
                 foreach (var tile in buffer.tiles)
                 {
-                    if (!typeCounts.ContainsKey(tile.type)) typeCounts[tile.type] = 0;
+                    typeCounts.TryAdd(tile.type, 0);
                     typeCounts[tile.type]++;
                 }
 
@@ -48,6 +48,7 @@ namespace Game
             var needToCollect = 3 - existingInBuffer;
             CollectTilesFromField(targetType, needToCollect);
             buffer.tiles.RemoveAll(t => t.type == targetType);
+            buffer.Wand();
             buffer.UpdateBufferUI();
             Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.Success);
         }

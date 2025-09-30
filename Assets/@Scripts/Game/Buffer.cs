@@ -124,5 +124,10 @@ namespace Game
             _lastAddedTile = null;
             return output;
         }
+
+        public void Wand()
+        {
+            _lastAddedTile = null;
+        }
     }
 }
