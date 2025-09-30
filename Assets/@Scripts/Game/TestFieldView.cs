@@ -12,7 +12,7 @@ using VContainer.Unity;
 
 namespace Game
 {
-    public class TestFieldView : SerializedMonoBehaviour
+    public class FieldHandler : SerializedMonoBehaviour
     {
         [Inject] private readonly IObjectResolver _resolver;
         [Inject] private TileDictionaryConfig _config;

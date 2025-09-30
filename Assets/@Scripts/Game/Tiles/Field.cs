@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -91,9 +93,10 @@ namespace Game.Tiles
             }
         }
         
-        public bool DeactivateTile(Tile tile)
+        public bool DeactivateTile(Tile tile, bool forced = false)
         {
-            if (tile is null || tile.IsBlocked) return false;
+            if (tile is null || (tile.IsBlocked && !forced)) return false;
+            
             var pos = tile.gridPosition;
             for (var dx = -1; dx <= 1; dx++)
             for (var dy = -1; dy <= 1; dy++)
@@ -119,15 +122,69 @@ namespace Game.Tiles
                 }
             }
 
-            int? topmost = null;
-            for (var z = pos.z - 1; z >= 0; z--)
-            {
-                if (Grid[pos.x, pos.y, z] is not Tile tileBelow) continue;
-                topmost ??= z;
-                tileBelow.TopmostTileInThisStack = topmost.Value;
-            }
+            UpdateTopmostFieldOnStack(pos.x, pos.y);
             
             return true;
+        }
+
+        public void ReactivateTile(Tile tile)
+        {
+            if (tile is null ) return;
+            tile.Active = true;
+            var pos = tile.gridPosition;
+            
+            for (var dx = -1; dx <= 1; dx++)
+            for (var dy = -1; dy <= 1; dy++)
+            {
+                AddOrCreateOccupiedTile(tile, new Vector3Int(pos.x + dx, pos.y + dy, pos.z));
+            }
+
+            if (pos.z > 0)
+            {
+                for (var z = _sizeZ - 2; z >= 0; z--)
+                for (var x = 1; x < _sizeX - 1; x++)
+                for (var y = 1; y < _sizeY - 1; y++)
+                {
+                    if (Grid[x, y, z] is Tile selectedTile)
+                        UpdateBlockStatus(selectedTile);
+                }
+            }
+
+            UpdateTopmostFieldOnStack(pos.x, pos.y);
+        }
+
+        public void Shuffle()
+        {
+            var activeTiles = new List<Tile>();
+            for (var z = 0; z < Grid.GetLength(2); z++)
+            {
+                for (var y = 0; y < Grid.GetLength(1); y++)
+                {
+                    for (var x = 0; x < Grid.GetLength(0); x++)
+                    {
+                        if (Grid[x, y, z] is Tile { Active: true } tile)
+                        {
+                            activeTiles.Add(tile);
+                        }
+                    }
+                }
+            }
+    
+            if (activeTiles.Count == 0) return;
+            
+            var tileTypes = activeTiles.Select(tile => tile.type).ToList();
+            
+            for (var i = tileTypes.Count - 1; i > 0; i--)
+            {
+                var randomIndex = Random.Range(0, i + 1);
+                (tileTypes[i], tileTypes[randomIndex]) = (tileTypes[randomIndex], tileTypes[i]);
+            }
+            
+            for (var i = 0; i < activeTiles.Count; i++)
+            {
+                activeTiles[i].type = tileTypes[i];
+                activeTiles[i].View?.UpdateView();
+            }
         }
         
         [Button("Debug Grid to Console", ButtonSizes.Medium)]

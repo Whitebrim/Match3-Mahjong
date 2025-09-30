@@ -3,10 +3,8 @@ using Core.Infrastructure.StateMachine;
 using Core.Infrastructure.StateMachine.States;
 using Core.Services.AssetManagement;
 using Game.Tiles;
-using Sirenix.OdinInspector;
 using Solo.MOST_IN_ONE;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using Utils.Extensions;
 using VContainer;
@@ -15,22 +13,19 @@ namespace Game
 {
     public class Buffer : MonoBehaviour
     {
-        private const string TileDictionarySOName = "Tile Dictionary";
-        private static readonly AssetReferenceT<TileDictionaryConfig> ConfigReference = new(TileDictionarySOName);
-        [ShowInInspector] private TileDictionaryConfig _config;
-        
         [Inject] protected readonly GameStateMachine StateMachine;
         
+        [SerializeField] private TileDictionaryConfig config;
         [SerializeField] private Image[] images = new Image[8];
-        [SerializeField] private List<Tile> tiles = new List<Tile>(8);
+        
+        public List<Tile> tiles = new(8);
 
         private int _activeSlots = 7; // One pay-walled slot
         private Tile _lastAddedTile;
         
-        private async void Start()
+        private void Start()
         {
             _activeSlots = 7;
-            _config ??= await ConfigReference.LoadAndCacheAsync(ReleaseKey.Game);
         }
 
         public bool AddTile(Tile tile)
@@ -74,6 +69,7 @@ namespace Game
                     Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.MediumImpact);
                     
                     tiles.RemoveRange(i - 2, 3);
+                    _lastAddedTile = null;
                     
                     UpdateBufferUI();
 
@@ -84,18 +80,18 @@ namespace Game
             }
         }
 
-        private void UpdateBufferUI()
+        public void UpdateBufferUI()
         {
             for (var i = 0; i < tiles.Count; i++)
             {
-                images[i].sprite = _config.TileSprites[tiles[i].type].LoadAndCache(ReleaseKey.Game);
+                images[i].sprite = config.TileSprites[tiles[i].type].LoadAndCache(ReleaseKey.Game);
                 images[i].color = new Color(1, 1, 1, 1);
             }
 
             for (var i = tiles.Count; i < _activeSlots; i++)
             {
                 images[i].sprite = null;
-                images[i].color = new Color(1, 1, 1, 0);
+                images[i].color = new Color(1, 1, 1, 20f/255f);
             }
         }
 
@@ -113,6 +109,20 @@ namespace Game
         {
             _activeSlots = 8;
             UpdateBufferUI();
+        }
+
+        /// <summary>
+        /// Undo PowerUp places last added tile back to the board
+        /// </summary>
+        public Tile Undo()
+        {
+            if (_lastAddedTile is null) return null;
+            
+            tiles.Remove(_lastAddedTile);
+            UpdateBufferUI();
+            var output = _lastAddedTile;
+            _lastAddedTile = null;
+            return output;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Game.Tiles
             }
         }
 
-        private void UpdateView()
+        public void UpdateView()
         {
             if (tile == null) return;
             

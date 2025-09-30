@@ -6,7 +6,7 @@ namespace Game
 {
     public class TestTileSelect : MonoBehaviour
     {
-        [SerializeField] private TestFieldView fieldView;
+        [SerializeField] private FieldHandler fieldHandler;
         [SerializeField] private LayerMask tileLayer;
         [SerializeField] private Buffer buffer;
     
@@ -86,7 +86,7 @@ namespace Game
                     else
                     {
                         var tile = _selectedTile.GetComponent<TileView>().Tile;
-                        if (fieldView.Field.DeactivateTile(tile))
+                        if (fieldHandler.Field.DeactivateTile(tile))
                             buffer.AddTile(tile);
                     }
                 }
