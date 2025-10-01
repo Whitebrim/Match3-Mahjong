@@ -21,7 +21,7 @@ namespace Game
         public List<Tile> tiles = new(8);
 
         private int _activeSlots = 7; // One pay-walled slot
-        private Tile _lastAddedTile;
+        private List<Tile> _lastAddedTiles = new();
         
         private void Start()
         {
@@ -30,7 +30,7 @@ namespace Game
 
         public bool AddTile(Tile tile)
         {
-            _lastAddedTile = tile;
+            _lastAddedTiles.Add(tile);
             var inserted = false;
             for (var i = 0; i < tiles.Count; i++)
             {
@@ -68,8 +68,8 @@ namespace Game
                     
                     Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.MediumImpact);
                     
+                    RemoveTypeFromUndo(tiles[i].type);
                     tiles.RemoveRange(i - 2, 3);
-                    _lastAddedTile = null;
                     
                     UpdateBufferUI();
 
@@ -98,7 +98,7 @@ namespace Game
         public void ClearBuffer()
         {
             tiles.Clear();
-            _lastAddedTile = null;
+            _lastAddedTiles.Clear();
             UpdateBufferUI();
         }
 
@@ -116,18 +116,18 @@ namespace Game
         /// </summary>
         public Tile Undo()
         {
-            if (_lastAddedTile is null) return null;
+            if (_lastAddedTiles.IsEmpty()) return null;
             
-            tiles.Remove(_lastAddedTile);
+            var output = _lastAddedTiles[^1];
+            tiles.Remove(output);
             UpdateBufferUI();
-            var output = _lastAddedTile;
-            _lastAddedTile = null;
+            _lastAddedTiles.RemoveAt(_lastAddedTiles.Count - 1);
             return output;
         }
 
-        public void Wand()
+        public void RemoveTypeFromUndo(TileType tileType)
         {
-            _lastAddedTile = null;
+            _lastAddedTiles.RemoveAll(tile => tile.type == tileType);
         }
     }
 }

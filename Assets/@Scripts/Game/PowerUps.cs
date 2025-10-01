@@ -48,7 +48,7 @@ namespace Game
             var needToCollect = 3 - existingInBuffer;
             CollectTilesFromField(targetType, needToCollect);
             buffer.tiles.RemoveAll(t => t.type == targetType);
-            buffer.Wand();
+            buffer.RemoveTypeFromUndo(targetType);
             buffer.UpdateBufferUI();
             Most_HapticFeedback.Generate(Most_HapticFeedback.HapticTypes.Success);
         }
