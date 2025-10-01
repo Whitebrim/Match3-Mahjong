@@ -5,6 +5,7 @@ using Game.Tiles;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 using Utils.Extensions;
 using VContainer;
@@ -30,15 +31,17 @@ namespace Game
         [SerializeField] private LevelTemplateSO levelTemplate;
 
         [SerializeField] private List<LevelTemplateSO> levelTemplateList;
-        [SerializeField] private TMP_Dropdown dropdown;
+        [SerializeField] private TMP_Dropdown levelTemplates;
         [SerializeField] private TMP_InputField typesInput;
+        [SerializeField] private Slider difficultySlider;
+        [SerializeField] private TMP_Dropdown factoryType;
         
         private void Start()
         {
             GenerateNewMap();
-            dropdown.ClearOptions();
-            dropdown.AddOptions(levelTemplateList.Select(x => x.name).ToList());
-            dropdown.onValueChanged.AddListener(SelectLevel);
+            levelTemplates.ClearOptions();
+            levelTemplates.AddOptions(levelTemplateList.Select(x => x.name).ToList());
+            levelTemplates.onValueChanged.AddListener(SelectLevel);
         }
 
         private void SelectLevel(int id)
@@ -49,6 +52,7 @@ namespace Game
         public void GenerateNewMap()
         {
             types = int.Parse(typesInput.text);
+            difficulty = difficultySlider.value;
             
             fieldRoot.DestroyAllChildren();
             fieldRoot.localPosition = new Vector3(-((levelTemplate.width + 1) / 2), -((levelTemplate.height + 1) / 2), 0);
@@ -59,7 +63,25 @@ namespace Game
             {
                 availableTypes.Add((TileType)Enum.GetValues(typeof(TileType)).GetValue(i));
             }
-            var factory = new FieldFactoryFromTemplate(levelTemplate, availableTypes, difficulty);
+            
+            FieldFactory factory;
+            switch (factoryType.value)
+            {
+                case 0:
+                    factory = new FieldFactoryFromTemplate(levelTemplate, availableTypes, difficulty);
+                    Debug.Log("FieldFactoryFromTemplate: " + difficulty * 100 + "%");
+                    break;
+                case 1:
+                    factory = new AdvancedFieldFactory(levelTemplate, availableTypes, difficulty);
+                    Debug.Log("AdvancedFieldFactory: " + difficulty * 100 + "%");
+                    break;
+                case 2:
+                default:
+                    factory = new StrategicWaveFactory(levelTemplate, availableTypes, difficulty);
+                    Debug.Log("StrategicWaveFactory: " + difficulty * 100 + "%");
+                    break;
+            }
+            
             Field = factory.Create();
             for (var z = 0; z < Field.Grid.GetLength(2); z++)
             for (var y = 0; y < Field.Grid.GetLength(1); y++)
