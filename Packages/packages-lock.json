@@ -5,21 +5,21 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "823fce8ddac462100458a3280139f1d0fcc07d24"
+      "hash": "94ec0872e4f9addcddc05ef4db2286b6691e82b5"
     },
     "com.cysharp.messagepipe.vcontainer": {
       "version": "https://github.com/Cysharp/MessagePipe.git?path=src/MessagePipe.Unity/Assets/Plugins/MessagePipe.VContainer",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "823fce8ddac462100458a3280139f1d0fcc07d24"
+      "hash": "94ec0872e4f9addcddc05ef4db2286b6691e82b5"
     },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "95998ff3f2d8011da67c7b9ba0c75a57af5f6b26"
+      "hash": "73a63b7f672b88f7e9992f6917eb458a8cbb6fa9"
     },
     "com.gameframe.sceneswitcher": {
       "version": "https://github.com/coryleach/UnitySceneSwitcher.git",
@@ -112,7 +112,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.localization": {
-      "version": "1.5.7",
+      "version": "1.5.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -122,7 +122,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mathematics": {
-      "version": "1.3.2",
+      "version": "1.3.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -142,7 +142,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mobile.android-logcat": {
-      "version": "1.4.5",
+      "version": "1.4.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -171,14 +171,14 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.profiling.core": {
-      "version": "1.0.2",
+      "version": "1.0.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.recorder": {
-      "version": "5.1.2",
+      "version": "5.1.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -199,7 +199,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.5.1",
+      "version": "1.6.0",
       "depth": 1,
       "source": "builtin",
       "dependencies": {
