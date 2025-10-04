@@ -16,12 +16,12 @@ namespace Core.Infrastructure.StateMachine.States
 
         public void Enter()
         {
-            _changeUIVisibilitySignal.Publish(UIType.SelectLevel, new ChangeUIVisibilitySignal{Visible = true});
+            //_changeUIVisibilitySignal.Publish(UIType.SelectLevel, new ChangeUIVisibilitySignal{Visible = true});
         }
 
         public void Exit()
         {
-            _changeUIVisibilitySignal.Publish(UIType.SelectLevel, new ChangeUIVisibilitySignal{Visible = false});
+            //_changeUIVisibilitySignal.Publish(UIType.SelectLevel, new ChangeUIVisibilitySignal{Visible = false});
         }
 
         [Button(ButtonSizes.Medium)]

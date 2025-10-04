@@ -47,5 +47,7 @@ namespace UI.Mediator
                 EnterLevel(level);
             }
         }
+
+        public void EnterLevel() => EnterLevel(1);
     }
 }

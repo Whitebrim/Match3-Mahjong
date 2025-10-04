@@ -177,7 +177,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0423\u0440\u043E\u0432\u0435\u043D\u044C"
+  m_text: "\u0418\u0433\u0440\u0430\u0442\u044C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -272,7 +272,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:d0798ebf8922c064aab9210bc3874abf
     m_TableEntryReference:
-      m_KeyId: 173606433537982464
+      m_KeyId: 316774601885548544
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -797,7 +797,7 @@ GameObject:
   - component: {fileID: 609749137}
   - component: {fileID: 609749140}
   m_Layer: 5
-  m_Name: Select Level
+  m_Name: Play
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,7 +869,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 801417422}
         m_TargetAssemblyTypeName: UI.Mediator.MainMenuMediator, Assembly-CSharp
-        m_MethodName: OpenSelectLevel
+        m_MethodName: EnterLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

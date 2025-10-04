@@ -26,6 +26,10 @@ MonoBehaviour:
     m_Localized: Back
     m_Metadata:
       m_Items: []
+  - m_Id: 316774601885548544
+    m_Localized: Play
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
