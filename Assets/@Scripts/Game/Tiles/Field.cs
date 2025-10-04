@@ -88,6 +88,7 @@ namespace Game.Tiles
             for (var z = _sizeZ - 1; z >= 0; z--)
             {
                 if (Grid[x, y, z] is not Tile stackTile) continue;
+                if (!stackTile.Active) continue;
                 topmost ??= z;
                 stackTile.TopmostTileInThisStack = topmost.Value;
             }
