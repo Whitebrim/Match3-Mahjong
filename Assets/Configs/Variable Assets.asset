@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4422d202aba24844e87517abd9abbea1, type: 3}
-  m_Name: VariableAssets
+  m_Name: Variable Assets
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2

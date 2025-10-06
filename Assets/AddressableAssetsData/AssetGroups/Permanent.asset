@@ -21,8 +21,28 @@ MonoBehaviour:
     m_SerializedLabels:
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b5214d05be25744da69536c3b79dd59
+    m_Address: Assets/Prefabs/Map/Road.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 448e3360fbe243c45aec13f1e740f17d
     m_Address: Tile Dictionary
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ccc1b4cb903f4e4794bdcb8f2326a67
+    m_Address: Assets/Prefabs/Map/LevelButton.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80b94b27b3b1a6342a49fe4422890801
+    m_Address: Assets/Art/Level lock.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acc696f2e0ed5944ca5d4d1447193321
+    m_Address: Assets/Art/0_empty.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
