@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UI_BiomeGradient
-  m_Shader: {fileID: 4800000, guid: 234262e8e2e5c434eb9368ae83e37176, type: 3}
+  m_Name: UI_ScrollBackground
+  m_Shader: {fileID: 4800000, guid: fd8e5f4296330c344a9ba378f6df55e9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,16 +22,23 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BiomeBlend: 0
-    - _EdgeDarkness: 0.3
-    - _EdgeSoftness: 0.3
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _VignetteIntensity: 0.3
+    - _VignetteSoftness: 0.5
     m_Colors:
-    - _BottomColor1: {r: 0, g: 0, b: 0, a: 1}
-    - _BottomColor2: {r: 0, g: 0, b: 0, a: 1}
-    - _TopColor1: {r: 1, g: 1, b: 1, a: 1}
-    - _TopColor2: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorBottom: {r: 0.1, g: 0.15, b: 0.25, a: 1}
+    - _ColorTop: {r: 0.2, g: 0.3, b: 0.5, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

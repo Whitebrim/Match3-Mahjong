@@ -25,11 +25,11 @@ namespace Core.Infrastructure.StateMachine.States
         }
 
         [Button(ButtonSizes.Medium)]
-        public async UniTask EnterLevel(ulong level)
+        public async UniTask EnterLevel(long level)
         {
             await SceneLoader.LoadSceneAsync(SceneNameConstants.Game);
             AddressablesCache.ReleaseAssets(ReleaseKey.MainMenu);
-            _stateMachine.Enter<GameState, ulong>(level);
+            _stateMachine.Enter<GameState, long>(level);
         }
     }
 }

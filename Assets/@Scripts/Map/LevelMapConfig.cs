@@ -7,18 +7,6 @@ namespace Map
 {
     public class LevelMapConfig : SerializedScriptableObject
     {
-        [Title("Map Settings")]
-        public float scrollSpeed = 200f;
-        public float levelButtonSpacing = 150f;
-        public int levelsPerBiome = 20;
-        
-        [Title("Path Generation")]
-        [Range(0.5f, 2f)]
-        public float pathCurveAmplitude = 1f;
-        [Range(0.1f, 1f)]
-        public float pathCurveFrequency = 0.3f;
-        public AnimationCurve pathCurve = AnimationCurve.EaseInOut(0, -1, 1, 1);
-        
         [Title("Decoration Settings")]
         public float decorationDensity = 0.3f;
         [Range(-500f, -100f)]
@@ -52,7 +40,6 @@ namespace Map
         public List<DecorationItem> decorations = new();
         
         [Title("Road Appearance")]
-        public AssetReferenceT<Sprite> roadSprite;
         public Color roadTint = Color.white;
     }
     
@@ -60,7 +47,7 @@ namespace Map
     public class DecorationItem
     {
         [PreviewField(50)]
-        public AssetReferenceT<Sprite> sprite;
+        public AssetReferenceSprite sprite;
         
         [Range(0f, 1f)]
         public float spawnChance = 0.5f;
@@ -73,6 +60,6 @@ namespace Map
         [Range(-180f, 180f)]
         public float maxRotation = 15f;
         
-        public int sortingOrder = 0;
+        public int sortingOrder = 1;
     }
 }

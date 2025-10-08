@@ -12,12 +12,12 @@ namespace Core.Infrastructure.StateMachine.States
 
         public void Enter()
         {
-            _changeUIVisibilitySignal.Publish(UIType.MainMenu, new ChangeUIVisibilitySignal{Visible = true});
+            //_changeUIVisibilitySignal.Publish(UIType.MainMenu, new ChangeUIVisibilitySignal{Visible = true});
         }
 
         public void Exit()
         {
-            _changeUIVisibilitySignal.Publish(UIType.MainMenu, new ChangeUIVisibilitySignal{Visible = false});
+            //_changeUIVisibilitySignal.Publish(UIType.MainMenu, new ChangeUIVisibilitySignal{Visible = false});
         }
     }
 }
