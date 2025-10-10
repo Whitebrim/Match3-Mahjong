@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Infrastructure.StateMachine;
+using Core.Infrastructure.StateMachine.States;
 using Game.Tiles;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -17,6 +19,7 @@ namespace Game
     {
         [Inject] private readonly IObjectResolver _resolver;
         [Inject] private TileDictionaryConfig _config;
+        [Inject] private GameStateMachine _stateMachine;
         [SerializeField] private int types = 6;
         [SerializeField, Range(0, 1)] private float difficulty = 0.5f;
 
@@ -30,14 +33,22 @@ namespace Game
 
         [SerializeField] private LevelTemplateSO levelTemplate;
 
+        [SerializeField] private List<LevelTemplateSO> tutorialLevelTemplateList;
         [SerializeField] private List<LevelTemplateSO> levelTemplateList;
         [SerializeField] private TMP_Dropdown levelTemplates;
         [SerializeField] private TMP_InputField typesInput;
         [SerializeField] private Slider difficultySlider;
         [SerializeField] private TMP_Dropdown factoryType;
+
+        private int _level;
         
         private void Start()
         {
+            _level = ((GameState)_stateMachine.CurrentState).Level;
+            if (_level is >= 1 and <= 4)
+                levelTemplate = tutorialLevelTemplateList[_level - 1];
+            else
+                levelTemplate = levelTemplateList[_level % levelTemplateList.Count];
             GenerateNewMap();
             levelTemplates.ClearOptions();
             levelTemplates.AddOptions(levelTemplateList.Select(x => x.name).ToList());

@@ -9,20 +9,20 @@ namespace Map
     {
         [SerializeField] private List<LevelButton> buttons;
         [SerializeField] private List<Image> props;
-        [SerializeField] private long itemIndex;
+        [SerializeField] private int itemIndex;
         
-        public void UpdateData(long index)
+        public void UpdateData(int index)
         {
             itemIndex = index;
             
             InitializeContent(index);
         }
         
-        private void InitializeContent(long index)
+        private void InitializeContent(int index)
         {
             for (var i = 0; i < buttons.Count; i++)
             {
-                buttons[i].UpdateData(index * buttons.Count + i);
+                buttons[i].UpdateData(index * buttons.Count + i + 1);
             }
         }
         

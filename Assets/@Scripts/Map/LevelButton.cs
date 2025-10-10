@@ -14,10 +14,10 @@ namespace Map
         [SerializeField] private TextMeshProUGUI levelNumberText;
         [SerializeField] private Image levelIcon;
         
-        private long _levelNumber;
+        private int _levelNumber;
         private int _starsEarned;
 
-        public void UpdateData(long level)
+        public void UpdateData(int level)
         {
             _levelNumber = level;
             levelNumberText.text = level.ToString();

@@ -12,36 +12,35 @@ namespace Map
     {
         [Inject] private readonly IObjectResolver _resolver;
         
-        [Header("Prefab Settings")] [SerializeField]
-        private GameObject itemPrefab;
-
+        [Header("Prefab Settings")]
+        [SerializeField] private GameObject itemPrefab;
         [SerializeField] private RectTransform content;
 
-        [Header("Scroll Settings")] [SerializeField]
-        private float itemHeight = 100f;
-
+        [Header("Scroll Settings")]
+        [SerializeField] private float itemHeight = 100f;
+        [SerializeField] private float minScrollPos = 0f;
         [SerializeField] private float spacing = 0f;
         [SerializeField] private int bufferCount = 1;
 
-        [Header("Scroll State")] [SerializeField]
-        private float currentScrollPosition = 0f;
+        [Header("Scroll State")]
+        [SerializeField] private float currentScrollPosition = 0f;
 
         public float CurrentScrollPosition => currentScrollPosition;
         
         public event Action<float> OnScrollPositionChanged;
-        public event Action<long> OnItemIndexChanged;
+        public event Action<int> OnItemIndexChanged;
         
         private RectTransform viewport;
         private ObjectPool<GameObject> itemPool;
         private List<ScrollItem> activeItems = new List<ScrollItem>();
         private float viewportHeight;
-        private long visibleItemCount;
-        private long totalItemCount = long.MaxValue;
-        private long currentStartIndex;
+        private int visibleItemCount;
+        private int totalItemCount = int.MaxValue;
+        private int currentStartIndex;
         
         private bool isDragging = false;
-        private float dragStartY;
-        private float contentStartY;
+        private Vector2 pointerStartLocalCursor;
+        private float contentStartScrollPosition;
         private Vector2 velocity = Vector2.zero;
         private float deceleration = 0.95f;
         
@@ -51,6 +50,7 @@ namespace Map
         private void Awake()
         {
             viewport = GetComponent<RectTransform>();
+            currentScrollPosition = minScrollPos;
             if (content == null)
             {
                 GameObject contentGO = new GameObject("Content");
@@ -59,7 +59,7 @@ namespace Map
                 content.anchorMin = new Vector2(0, 0);
                 content.anchorMax = new Vector2(1, 1);
                 content.sizeDelta = Vector2.zero;
-                content.anchoredPosition = Vector2.zero;
+                content.anchoredPosition = new Vector2(0, -currentScrollPosition);
             }
 
             InitializePool();
@@ -116,7 +116,7 @@ namespace Map
         private void CalculateVisibleItems()
         {
             viewportHeight = viewport.rect.height;
-            visibleItemCount = (long)(Math.Ceiling(viewportHeight / (itemHeight + spacing)) + bufferCount * 2);
+            visibleItemCount = (int)(Math.Ceiling(viewportHeight / (itemHeight + spacing)) + bufferCount * 2);
         }
 
         private void PopulateItems()
@@ -167,9 +167,18 @@ namespace Map
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            // Конвертируем экранные координаты в локальные координаты viewport
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                viewport, 
+                eventData.position, 
+                eventData.pressEventCamera, 
+                out pointerStartLocalCursor))
+            {
+                return;
+            }
+
             isDragging = true;
-            dragStartY = eventData.position.y;
-            contentStartY = currentScrollPosition;
+            contentStartScrollPosition = currentScrollPosition;
             velocity = Vector2.zero;
         }
 
@@ -177,9 +186,24 @@ namespace Map
         {
             if (!isDragging) return;
 
-            float deltaY = eventData.position.y - dragStartY;
-            float newScrollPosition = contentStartY - deltaY;
+            // Конвертируем текущие экранные координаты в локальные
+            Vector2 localCursor;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                viewport, 
+                eventData.position, 
+                eventData.pressEventCamera, 
+                out localCursor))
+            {
+                return;
+            }
+
+            // Вычисляем дельту в локальных координатах (это уже учитывает Canvas Scaler)
+            Vector2 pointerDelta = localCursor - pointerStartLocalCursor;
             
+            // Обновляем позицию скролла (инвертируем Y, так как скролл идет вниз)
+            float newScrollPosition = contentStartScrollPosition - pointerDelta.y;
+            
+            // Вычисляем velocity для инерции
             velocity = new Vector2(0, (newScrollPosition - currentScrollPosition) / Time.deltaTime * inertia);
 
             currentScrollPosition = newScrollPosition;
@@ -193,9 +217,9 @@ namespace Map
 
         private void UpdateScroll()
         {
-            if (currentScrollPosition < 0)
+            if (currentScrollPosition < minScrollPos)
             {
-                currentScrollPosition = 0;
+                currentScrollPosition = minScrollPos;
                 velocity = Vector2.zero;
             }
             
@@ -215,7 +239,7 @@ namespace Map
 
             if (newStartIndex != currentStartIndex)
             {
-                long diff = newStartIndex - currentStartIndex;
+                int diff = newStartIndex - currentStartIndex;
 
                 if (Mathf.Abs(diff) >= visibleItemCount)
                 {
@@ -236,7 +260,7 @@ namespace Map
             }
         }
 
-        private void RecycleItemsUp(long count)
+        private void RecycleItemsUp(int count)
         {
             count = Math.Min(count, activeItems.Count);
 
@@ -247,7 +271,7 @@ namespace Map
                 ScrollItem itemToRecycle = activeItems[0];
                 activeItems.RemoveAt(0);
 
-                long newIndex = currentStartIndex + visibleItemCount + i;
+                int newIndex = currentStartIndex + visibleItemCount + i;
                 if (newIndex < totalItemCount)
                 {
                     itemToRecycle.UpdateData(newIndex);
@@ -265,7 +289,7 @@ namespace Map
             }
         }
 
-        private void RecycleItemsDown(long count)
+        private void RecycleItemsDown(int count)
         {
             count = Math.Min(count, activeItems.Count);
 
@@ -276,7 +300,7 @@ namespace Map
                 ScrollItem itemToRecycle = activeItems[^1];
                 activeItems.RemoveAt(activeItems.Count - 1);
 
-                long newIndex = currentStartIndex - i - 1;
+                int newIndex = currentStartIndex - i - 1;
                 if (newIndex >= 0)
                 {
                     itemToRecycle.UpdateData(newIndex);

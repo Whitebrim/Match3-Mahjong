@@ -1107,6 +1107,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 7822361177325991960, guid: a11c9089a0165cf43899642e562aed30, type: 3}
   content: {fileID: 0}
   itemHeight: 648
+  minScrollPos: -300
   spacing: 0
   bufferCount: 1
   currentScrollPosition: 0
@@ -1605,7 +1606,6 @@ MonoBehaviour:
     endHeight: 0
   vignetteIntensity: 0.35
   vignetteSoftness: 1
-  transitionSpeed: 100
 --- !u!1 &2126676342
 GameObject:
   m_ObjectHideFlags: 0

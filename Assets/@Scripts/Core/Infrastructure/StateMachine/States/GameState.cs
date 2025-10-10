@@ -4,14 +4,16 @@ using VContainer;
 
 namespace Core.Infrastructure.StateMachine.States
 {
-    public class GameState : IPayloadedState<long>
+    public class GameState : IPayloadedState<int>
     {
         [Inject] private readonly GameStateMachine _stateMachine;
         [Inject] private readonly IObjectResolver _resolver;
         
-        public void Enter(long payload)
+        public int Level { get; private set; }
+        
+        public void Enter(int payload)
         {
-            
+            Level = payload;
         }
 
         public void Exit()

@@ -32,9 +32,6 @@ namespace Map
         [Header("Vignette Settings")]
         [SerializeField] private float vignetteIntensity = 0.3f;
         [SerializeField] private float vignetteSoftness = 0.5f;
-        
-        [Header("Transition")]
-        [SerializeField] private float transitionSpeed = 5f;
 
         private Material _backgroundMaterial;
         private Color _currentColor;
@@ -70,7 +67,8 @@ namespace Map
 
         private void InitializeMaterial()
         {
-            _backgroundMaterial = backgroundImage.material;
+            _backgroundMaterial = new Material(backgroundImage.material);
+            backgroundImage.material = _backgroundMaterial;
 
             _currentColor = colorZones.Length > 0 ? colorZones[0].color : Color.white;
 

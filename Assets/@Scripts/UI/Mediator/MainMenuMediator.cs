@@ -35,7 +35,7 @@ namespace UI.Mediator
         }
         
         [Button(ButtonSizes.Medium)]
-        public void EnterLevel(long level)
+        public void EnterLevel(int level)
         {
             if (StateMachine.CurrentState is SelectLevelState state)
             {
@@ -48,6 +48,6 @@ namespace UI.Mediator
             }
         }
 
-        public void EnterLevel() => EnterLevel(1);
+        public void EnterLevel() => EnterLevel(0);
     }
 }
