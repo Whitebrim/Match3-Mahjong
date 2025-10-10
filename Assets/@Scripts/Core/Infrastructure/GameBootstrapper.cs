@@ -27,7 +27,8 @@ namespace Core.Infrastructure
         
         private async UniTask ApplicationInit()
         {
-            Application.targetFrameRate = (int)Math.Ceiling(Screen.currentResolution.refreshRateRatio.value);
+            Application.targetFrameRate = Mathf.Max(120, (int)Math.Ceiling(Screen.currentResolution.refreshRateRatio.value));
+            Debug.Log("Target framerate = " + Application.targetFrameRate);
             await Addressables.InitializeAsync();
         }
     }
