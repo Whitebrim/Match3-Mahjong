@@ -178,7 +178,7 @@ namespace Map
             if (!isDragging) return;
 
             float deltaY = eventData.position.y - dragStartY;
-            float newScrollPosition = contentStartY - deltaY * scrollSensitivity;
+            float newScrollPosition = contentStartY - deltaY;
             
             velocity = new Vector2(0, (newScrollPosition - currentScrollPosition) / Time.deltaTime * inertia);
 

@@ -50,7 +50,7 @@ Shader "UI/ScrollBackground"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 2.0
+            #pragma target 3.0
 
             #include "UnityCG.cginc"
             #include "UnityUI.cginc"
@@ -69,6 +69,7 @@ Shader "UI/ScrollBackground"
                 fixed4 color : COLOR;
                 float2 texcoord : TEXCOORD0;
                 float4 worldPosition : TEXCOORD1;
+                float4 screenPos : TEXCOORD2;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -80,6 +81,27 @@ Shader "UI/ScrollBackground"
             float _VignetteIntensity;
             float _VignetteSoftness;
 
+            // Функция для генерации псевдослучайного шума (дизеринг)
+            float rand(float2 co)
+            {
+                return frac(sin(dot(co.xy, float2(12.9898, 78.233))) * 43758.5453);
+            }
+
+            // Улучшенная функция дизеринга
+            float dither(float2 screenPos)
+            {
+                float noise = rand(screenPos);
+                return (noise - 0.5) / 255.0; // Нормализуем для 8-bit цвета
+            }
+
+            // Smooth gradient функция (использует smoothstep для еще более плавного перехода)
+            float3 smoothGradient(float3 colorA, float3 colorB, float t)
+            {
+                // Применяем smoothstep для устранения линейности
+                float smoothT = smoothstep(0.0, 1.0, t);
+                return lerp(colorA, colorB, smoothT);
+            }
+
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -87,6 +109,7 @@ Shader "UI/ScrollBackground"
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
                 OUT.worldPosition = v.vertex;
                 OUT.vertex = UnityObjectToClipPos(OUT.worldPosition);
+                OUT.screenPos = ComputeScreenPos(OUT.vertex);
                 OUT.texcoord = v.texcoord;
                 OUT.color = v.color;
                 return OUT;
@@ -94,39 +117,67 @@ Shader "UI/ScrollBackground"
 
             fixed4 frag(v2f IN) : SV_Target
             {
-                // Вертикальный градиент
-                fixed4 gradientColor = lerp(_ColorBottom, _ColorTop, IN.texcoord.y);
+                // Вычисляем screen-space координаты для дизеринга
+                float2 screenUV = IN.screenPos.xy / IN.screenPos.w;
+                screenUV *= _ScreenParams.xy;
 
-                // Вычисляем виньетирование по бокам
-                float2 center = float2(0.5, 0.5);
-                float2 uv = IN.texcoord - center;
+                // Создаем плавный вертикальный градиент с дизерингом
+                float gradientT = IN.texcoord.y;
                 
-                // Горизонтальное затемнение (только по X)
-                float horizontalDist = abs(uv.x) * 2.0;
+                // Добавляем дизеринг для устранения полос
+                float ditherValue = dither(screenUV);
+                gradientT += ditherValue;
+                gradientT = saturate(gradientT);
+
+                // Используем улучшенную функцию градиента
+                float3 gradientColor = smoothGradient(_ColorBottom.rgb, _ColorTop.rgb, gradientT);
+
+                // Вычисляем виньетирование по горизонтали и внизу
+                float2 uv = IN.texcoord;
                 
-                // Используем smoothstep для плавного перехода
-                float vignetteStart = 1.0 - _VignetteSoftness;
-                float vignette = 1.0 - smoothstep(vignetteStart, 1.0, horizontalDist);
+                // Расстояние от центра по горизонтали (0 в центре, 1 на краях)
+                float horizontalDist = abs(uv.x - 0.5) * 2.0;
                 
-                // Применяем интенсивность виньетирования
+                // Расстояние снизу (0 внизу, 1 вверху) - умножаем на 2 чтобы эффект был в 2 раза меньше
+                float bottomDist = uv.y * 2.0;
+                
+                // Создаем плавное виньетирование с улучшенной формулой
+                float vignetteEdge = 1.0 - _VignetteSoftness * 0.8;
+                
+                // Горизонтальное виньетирование (слева и справа)
+                float vignetteHorizontal = 1.0 - smoothstep(vignetteEdge, 1.0, horizontalDist);
+                vignetteHorizontal = pow(vignetteHorizontal, 2.0);
+                
+                // Вертикальное виньетирование (только снизу)
+                float vignetteBottom = smoothstep(0.0, _VignetteSoftness * 0.5, bottomDist);
+                vignetteBottom = pow(vignetteBottom, 1.5);
+                
+                // Комбинируем горизонтальное и вертикальное виньетирование
+                float vignette = vignetteHorizontal * vignetteBottom;
+                
+                // Интерполируем между затемненным и незатемненным состоянием
                 vignette = lerp(1.0, vignette, _VignetteIntensity);
                 
-                // Комбинируем градиент с виньетированием
-                fixed4 finalColor = gradientColor;
-                finalColor.rgb *= vignette;
+                // Применяем виньетирование к градиенту
+                float3 finalColor = gradientColor * vignette;
                 
-                // Применяем цвет вершины и альфу
-                finalColor *= IN.color;
+                // Добавляем небольшой дополнительный дизеринг к финальному цвету
+                finalColor += ditherValue * 0.5;
+                
+                // Создаем финальный цвет с альфа-каналом
+                fixed4 result = fixed4(finalColor, 1.0);
+                
+                // Применяем цвет вершины
+                result *= IN.color;
                 
                 // Отсечение для UI
-                finalColor.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
+                result.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
                 
-                // Убираем полностью прозрачные пиксели
                 #ifdef UNITY_UI_CLIP_RECT
-                clip(finalColor.a - 0.001);
+                clip(result.a - 0.001);
                 #endif
 
-                return finalColor;
+                return result;
             }
             ENDCG
         }

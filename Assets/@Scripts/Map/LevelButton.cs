@@ -11,16 +11,10 @@ namespace Map
     {
         [Inject] private readonly GameStateMachine _stateMachine;
         
-        [Header("UI References")]
-        [SerializeField] private Button button;
         [SerializeField] private TextMeshProUGUI levelNumberText;
         [SerializeField] private Image levelIcon;
-        [SerializeField] private Image lockIcon;
-        [SerializeField] private Image[] starIcons = new Image[3];
-        [SerializeField] private GameObject completedOverlay;
         
         private long _levelNumber;
-        private bool _isUnlocked;
         private int _starsEarned;
 
         public void UpdateData(long level)

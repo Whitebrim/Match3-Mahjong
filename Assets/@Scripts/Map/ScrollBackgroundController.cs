@@ -38,7 +38,6 @@ namespace Map
 
         private Material _backgroundMaterial;
         private Color _currentColor;
-        private Color _targetColor;
 
         private static readonly int ColorTopId = Shader.PropertyToID("_ColorTop");
         private static readonly int ColorBottomId = Shader.PropertyToID("_ColorBottom");
@@ -47,8 +46,7 @@ namespace Map
 
         private void Awake()
         {
-            if (backgroundImage == null)
-                backgroundImage = GetComponent<RawImage>();
+            backgroundImage ??= GetComponent<RawImage>();
 
             InitializeMaterial();
             CalculateZoneHeights();
@@ -72,18 +70,9 @@ namespace Map
 
         private void InitializeMaterial()
         {
-            Shader shader = Shader.Find("UI/ScrollBackground");
-            if (shader == null)
-            {
-                Debug.LogError("Shader 'UI/ScrollBackground' not found!");
-                return;
-            }
-
-            _backgroundMaterial = new Material(shader);
-            backgroundImage.material = _backgroundMaterial;
+            _backgroundMaterial = backgroundImage.material;
 
             _currentColor = colorZones.Length > 0 ? colorZones[0].color : Color.white;
-            _targetColor = _currentColor;
 
             UpdateMaterialProperties();
         }
@@ -102,7 +91,8 @@ namespace Map
 
         private void OnScrollPositionChanged(float scrollPosition)
         {
-            _targetColor = GetColorAtPosition(scrollPosition);
+            _currentColor = GetColorAtPosition(scrollPosition);
+            UpdateMaterialProperties();
         }
 
         private Color GetColorAtPosition(float position)
@@ -133,15 +123,6 @@ namespace Map
             return colorZones[0].color;
         }
 
-        private void Update()
-        {
-            if (_currentColor != _targetColor)
-            {
-                _currentColor = Color.Lerp(_currentColor, _targetColor, Time.deltaTime * transitionSpeed);
-                UpdateMaterialProperties();
-            }
-        }
-
         private void UpdateMaterialProperties()
         {
             if (_backgroundMaterial == null)
@@ -154,18 +135,6 @@ namespace Map
             _backgroundMaterial.SetColor(ColorBottomId, bottomColor);
             _backgroundMaterial.SetFloat(VignetteIntensityId, vignetteIntensity);
             _backgroundMaterial.SetFloat(VignetteSoftnessId, vignetteSoftness);
-        }
-
-        public void SetVignetteIntensity(float intensity)
-        {
-            vignetteIntensity = Mathf.Clamp01(intensity);
-            UpdateMaterialProperties();
-        }
-
-        public void SetVignetteSoftness(float softness)
-        {
-            vignetteSoftness = Mathf.Clamp01(softness);
-            UpdateMaterialProperties();
         }
 
         private void OnDestroy()
